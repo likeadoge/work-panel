@@ -14,7 +14,9 @@
     </a-layout-header>
 
     <a-layout-content>
-      <router-view />
+      <div style="height:100%;overflow:auto">
+        <router-view />
+      </div>
     </a-layout-content>
     <a-layout-footer style="text-align: center">Copyright © 2000 - 2020 DAMENG. All Rights Reserved.</a-layout-footer>
   </a-layout>
@@ -36,6 +38,26 @@ body {
   background: rgba(255, 255, 255, 0.2);
   margin: 16px 28px 16px 0;
   float: left;
+}
+
+*::-webkit-scrollbar {/*滚动条整体样式*/
+    width: 5px;     /*高宽分别对应横竖滚动条的尺寸*/
+    height: 5px;
+    border-radius: 3px;
+}
+*::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+    border-radius: 2px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.2);
+}
+*::-webkit-scrollbar-track {/*滚动条里面轨道*/
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    border-radius: 0;
+    background: rgba(0,0,0,0.1);
+}
+
+body{
+    font-family: 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB',  'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'!important;
 }
 </style>
 
