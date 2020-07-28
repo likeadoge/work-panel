@@ -2,7 +2,11 @@
   <flex-col style="height:100%;">
     <flex-fixed></flex-fixed>
 
-    <h1 style="margin:24px 0 0 24px">{{name}}</h1>
+    <h1 style="margin:24px 0 0 24px">
+      {{name}}
+      <a-button type="primary" @click="addRow" style="margin: 0 12px">add row</a-button>
+      <a-button type="primary" @click="addCol">add col</a-button>
+    </h1>
     <flex-fill>
       <div
         :style="{
@@ -23,7 +27,8 @@
             :rowId="v.rowId"
             :colId="v.colId"
             :items="v.items"
-            @add="({rowId,colId})=>addItem({rowId,colId})"
+            @add="({rowId,colId,sort})=>addItem({rowId,colId,sort})"
+            @update="({rowId,colId,items})=>updateItems({rowId,colId,items})"
           />
 
           <row-opreater
@@ -63,9 +68,9 @@ export default {
   }),
   computed: {
     cells() {
-      return this.rows.flatMap(({ rowId }) =>
+      return this.rows.flatMap((v, rowId) =>
         this.cols
-          .map(({ colId }) => ({
+          .map((v, colId) => ({
             rowId,
             colId,
             type: "panel",
@@ -84,36 +89,49 @@ export default {
     },
   },
   methods: {
-    addItem({ rowId, colId }) {
+    addItem({ rowId, colId, sort }) {
       // console.info("add item", { rowId, colId });
       this.list.push({
         rowId,
         colId,
-        content: ph(),
+        sort,
+        content: ph(20, 100),
       });
     },
+    updateItems({ rowId, colId, items }) {
+      this.list = this.list
+        .filter((v) => v.rowId !== rowId || v.colId !== colId)
+        .concat(
+          items.map((v, sort) => Object.assign({}, v, { colId, rowId, sort }))
+        );
+    },
+    addRow() {
+      this.rows.push({ rowId: uuid() });
+    },
+    addCol() {
+      this.cols.push({ colId: uuid() });
+    },
     rowUp(rowId) {
-      this.rows = this.rows.flatMap((v,i,arr)=>{
-        if((v.rowId === rowId) && arr[i-1]){
-          return [v,arr[i-1]]
-        }else if(arr[i+1] && arr[i+1].rowId === rowId ){
-          return []
-        }else{
-          return [v]
+      this.rows = this.rows.flatMap((v, i, arr) => {
+        if (v.rowId === rowId && arr[i - 1]) {
+          return [v, arr[i - 1]];
+        } else if (arr[i + 1] && arr[i + 1].rowId === rowId) {
+          return [];
+        } else {
+          return [v];
         }
-      })
+      });
     },
     rowDown(rowId) {
-      
-      this.rows = this.rows.flatMap((v,i,arr)=>{
-        if((v.rowId === rowId) && arr[i+1]){
-          return [arr[i+1],v]
-        }else if(arr[i-1] && arr[i-1].rowId === rowId ){
-          return []
-        }else{
-          return [v]
+      this.rows = this.rows.flatMap((v, i, arr) => {
+        if (v.rowId === rowId && arr[i + 1]) {
+          return [arr[i + 1], v];
+        } else if (arr[i - 1] && arr[i - 1].rowId === rowId) {
+          return [];
+        } else {
+          return [v];
         }
-      })
+      });
     },
     rowTop(rowId) {
       this.rows = this.rows
