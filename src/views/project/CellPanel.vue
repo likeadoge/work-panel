@@ -4,8 +4,8 @@
       <draggable
         v-model="list"
         :element="'div'"
-        :options="{ group: {name:'work-card'},ghostClass: 'work-card-ghost'}"
-        @end="(...e)=>log(...e)"
+        :ghostClass= "'work-card-ghost'"
+        :group="{name:'card'}"
       >
         <div class="item border-card" v-for="(v,i) in items" :key="i">{{v.content}}</div>
       </draggable>

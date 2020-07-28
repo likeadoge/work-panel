@@ -68,9 +68,9 @@ export default {
   }),
   computed: {
     cells() {
-      return this.rows.flatMap((v, rowId) =>
+      return this.rows.flatMap(({rowId}) =>
         this.cols
-          .map((v, colId) => ({
+          .map(({colId} ) => ({
             rowId,
             colId,
             type: "panel",
