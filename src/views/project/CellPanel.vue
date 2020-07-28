@@ -4,12 +4,15 @@
       <draggable
         v-model="list"
         :element="'div'"
-        :ghostClass= "'work-card-ghost'"
+        :ghostClass="'work-card-ghost'"
         :group="{name:'card'}"
+        style="padding-bottom:16px"
       >
         <div class="item border-card" v-for="(v,i) in items" :key="i">{{v.content}}</div>
       </draggable>
-      <a-button type="link" icon="plus" @click="add">添加新的卡片</a-button>
+      <div style="margin-top:-16px">
+        <a-button type="link" icon="plus" @click="add">添加新的卡片</a-button>
+      </div>
     </div>
   </div>
 </template>
@@ -22,7 +25,7 @@ export default {
   computed: {
     list: {
       get() {
-        return this.items.map(v=>v).sort((a, b) => a.sort - b.sort);
+        return this.items.map((v) => v).sort((a, b) => a.sort - b.sort);
       },
       set(items) {
         this.$emit("update", {
@@ -66,7 +69,7 @@ export default {
   margin-bottom: 8px;
 }
 
-.work-card-ghost{
+.work-card-ghost {
   opacity: 0.5;
 }
 </style>
