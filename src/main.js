@@ -4,6 +4,7 @@ import App from './App';
 import GlobelComponents from './components/globe/index';
 import 'ant-design-vue/dist/antd.css';
 import router from './router'
+import './style/all.scss'
 Vue.config.productionTip = false;
 
 Vue.use(Antd);

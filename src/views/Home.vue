@@ -40,7 +40,7 @@
       <a-layout-content :style="{ padding: '0 24px', minHeight: '280px' }">
         <task-panel
           v-for="(v) in list"
-          :key="v.tid"
+          :key="v.id"
           :title="v.title"
           :sub-title="v.subTitle"
           :boards="v.boards"
@@ -62,16 +62,18 @@ export default {
   data: () => ({
     // list:[]
     list: new Array(5).fill(0).map(() => ({
-      title: ph(),
-      tid: uuid(),
-      subTitle: ph(),
-      boards: [],
+      id: uuid(), // 项目 id
+      title: ph(), // 标题
+      subTitle: ph(), // 副标题
+      boards: new Array(5).fill(0).map(() => ({
+        title: ph(), // 标题
+      })),
     })),
   }),
 
-  mounted(){
-    console.log(this.list)
-  }
+  mounted() {
+    console.log(this.list);
+  },
 };
 </script>
 
