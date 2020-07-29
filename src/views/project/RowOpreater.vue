@@ -1,16 +1,16 @@
 <template>
   <div class="row-operate">
     <p>
-      <a-button @click="rowUp" :ghost="true" type="primary" shape="circle" icon="arrow-up" style="margin-right:12px"/> 
-      <a-button @click="rowTop" :ghost="true" type="primary" shape="round">置顶</a-button>
+      <a-button @click="rowUp" size="small" :ghost="true" type="primary" shape="circle" icon="arrow-up" style="margin-right:12px"/> 
+      <a-button @click="rowTop" size="small" :ghost="true" type="primary" shape="round">置顶</a-button>
     </p>
     <p>
-      <a-button @click="rowDown" :ghost="true" type="primary" shape="circle" icon="arrow-down" style="margin-right:12px"/>
-      <a-button @click="rowBottom" :ghost="true" type="primary" shape="round">底部</a-button>
+      <a-button @click="rowDown" size="small" :ghost="true" type="primary" shape="circle" icon="arrow-down" style="margin-right:12px"/>
+      <a-button @click="rowBottom" size="small" :ghost="true" type="primary" shape="round">底部</a-button>
     </p>
     <p>
-      <a-button @click="rowDelete" :ghost="true" type="primary" shape="circle" icon="delete" style="margin-right:12px"/>
-      <a-button @click="rowCopy" :ghost="true" type="primary" shape="round">复制</a-button>
+      <a-button @click="rowDelete" size="small" :ghost="true" type="primary" shape="circle" icon="delete" style="margin-right:12px"/>
+      <a-button @click="rowCopy" size="small" :ghost="true" type="primary" shape="round">复制</a-button>
     </p>
   </div>
 </template>

@@ -176,8 +176,4 @@ export default {
   background: #66ccff;
 }
 
-.row-operate {
-  /* height: 30px; */
-  /* background: #66ffcc; */
-}
 </style>
