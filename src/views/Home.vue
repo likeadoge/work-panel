@@ -1,6 +1,6 @@
 <template>
-  <div  style="height:100%;padding: 50px 50px 0 50px">
-    <a-layout style="height:100%;padding: 24px 0; background: #fff" >
+  <div style="height:100%;padding: 50px 50px 0 50px">
+    <a-layout style="height:100%;padding: 24px 0; background: #fff">
       <a-layout-sider width="200" style="background: #fff;overflow:auto">
         <a-menu
           mode="inline"
@@ -37,10 +37,43 @@
           </a-sub-menu>
         </a-menu>
       </a-layout-sider>
-      <a-layout-content :style="{ padding: '0 24px', minHeight: '280px' }">Content</a-layout-content>
+      <a-layout-content :style="{ padding: '0 24px', minHeight: '280px' }">
+        <task-panel
+          v-for="(v) in list"
+          :key="v.tid"
+          :title="v.title"
+          :sub-title="v.subTitle"
+          :boards="v.boards"
+        />
+      </a-layout-content>
     </a-layout>
   </div>
 </template>
+
+<script>
+import TaskPanel from "./home/TaskPanel";
+import ph from "@/utils/placeholder";
+import uuid from "@/utils/uuid";
+
+export default {
+  components: {
+    TaskPanel,
+  },
+  data: () => ({
+    // list:[]
+    list: new Array(5).fill(0).map(() => ({
+      title: ph(),
+      tid: uuid(),
+      subTitle: ph(),
+      boards: [],
+    })),
+  }),
+
+  mounted(){
+    console.log(this.list)
+  }
+};
+</script>
 
 <style >
 html,

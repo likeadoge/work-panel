@@ -9,6 +9,9 @@
         <a-menu-item key="2">
           <router-link to="/project">Project</router-link>
         </a-menu-item>
+        <a-menu-item key="3">
+          <router-link to="/login">Login</router-link>
+        </a-menu-item>
         <!-- <a-menu-item key="3">nav 3</a-menu-item> -->
       </a-menu>
     </a-layout-header>
