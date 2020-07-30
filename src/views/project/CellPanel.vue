@@ -55,7 +55,7 @@ export default {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.01);
   transition: all 0.3s ease-out;
   padding: 8px;
-}
+}  
 
 .border-card {
   border: 1px solid #dee0e3;
