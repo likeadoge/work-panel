@@ -44,6 +44,7 @@
           :title="v.title"
           :sub-title="v.subTitle"
           :boards="v.boards"
+          @sort="boards=>sortBoards(v.id,boards)"
         />
       </a-layout-content>
     </a-layout>
@@ -70,6 +71,12 @@ export default {
       })),
     })),
   }),
+  methods:{
+    sortBoards(id,arr){
+      if(this.list.find(v=>v.id == id))
+      this.list.find(v=>v.id == id).boards = arr
+    }
+  },
 
   mounted() {
   },

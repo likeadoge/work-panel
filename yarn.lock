@@ -10438,6 +10438,11 @@ sort-keys@^2.0.0:
   dependencies:
     is-plain-obj "^1.0.0"
 
+sortablejs@^1.10.1:
+  version "1.10.2"
+  resolved "https://registry.npm.taobao.org/sortablejs/download/sortablejs-1.10.2.tgz#6e40364d913f98b85a14f6678f92b5c1221f5290"
+  integrity sha1-bkA2TZE/mLhaFPZnj5K1wSIfUpA=
+
 source-list-map@^2.0.0:
   version "2.0.1"
   resolved "https://registry.npm.taobao.org/source-list-map/download/source-list-map-2.0.1.tgz#3993bd873bfc48479cca9ea3a547835c7c154b34"
@@ -11681,6 +11686,11 @@ vue-loader@^15.9.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
+vue-ls@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.npm.taobao.org/vue-ls/download/vue-ls-3.2.1.tgz#25d1c75b3a51c17018129de607b44bb120a3385a"
+  integrity sha1-JdHHWzpRwXAYEp3mB7RLsSCjOFo=
+
 vue-ref@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/vue-ref/download/vue-ref-2.0.0.tgz#483084d732abed11da796778a8266a3af0ea1a9c"
@@ -11723,6 +11733,13 @@ vue@^2.6.11:
   version "2.6.11"
   resolved "https://registry.npm.taobao.org/vue/download/vue-2.6.11.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue%2Fdownload%2Fvue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
   integrity sha1-dllNh31LEiNEBuhONSdcbVFBJcU=
+
+vuedraggable@^2.24.0:
+  version "2.24.0"
+  resolved "https://registry.npm.taobao.org/vuedraggable/download/vuedraggable-2.24.0.tgz?cache=0&sync_timestamp=1594079727646&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvuedraggable%2Fdownload%2Fvuedraggable-2.24.0.tgz#1ee069eeb91f61fcb540faf20f1c6b2d4d990a26"
+  integrity sha1-HuBp7rkfYfy1QPryDxxrLU2ZCiY=
+  dependencies:
+    sortablejs "^1.10.1"
 
 warning@^4.0.0:
   version "4.0.3"
