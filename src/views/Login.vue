@@ -1,7 +1,5 @@
 <template>
   <div class="bg">
-    <!-- <router-link to="/">Home</router-link> -->
-
     <div class="whitebg">
       <div style="display: flex; align-items:center; ">
         <img src="../assets/login_logo/bg-left.png" style="width: 96%; margin-left: 30px;" />
@@ -11,7 +9,6 @@
         style="display: flex; flex-direction: column; justify-content: center; height: 450px; margin-left: 70px; margin-right: 80px; width: 400px;"
       >
         <!-- 登录界面 -->
-        <!-- 测试代码能不能提交 -->
         <a-form-model
           v-if="switchLogin"
           key="login"
@@ -125,7 +122,14 @@
     </div>
   </div>
 </template>
+
 <script>
+// import { client } from "../event/index.ts";
+// import TitleBar from "@/components/TitleBar";
+// import { mapGetters, mapMutations } from "vuex";
+
+import * as user from "@/request/user";
+
 export default {
   data() {
     const validatePass = (rule, value, callback) => {
@@ -198,12 +202,110 @@ export default {
       },
     };
   },
-  methods:{
-      handleLogin(){
-          this.$router.push('/')
-          return Promise.resolve()
-      }
-  }
+
+  methods: {
+    handingClickRegBtn() {
+      this.$refs.regBtn.click();
+    },
+    handleRegister() {
+      return (
+        this.$refs.regForm
+          .validate()
+          .then(() => {
+            const { regusername, regpassword } = this.regForm;
+            return user.testRegister({
+              regusername,
+              regpassword,
+            });
+          })
+          //延迟2秒
+          .then((...arg) => {
+            return new Promise((res) =>
+              setTimeout(() => {
+                res(...arg);
+              }, 500)
+            );
+          })
+          .then(() => {
+            this.$message.success("注册成功！");
+            this.switchLogin = true;
+            if (this.$refs.logForm) {
+              this.$refs.logForm.resetFields();
+            }
+            this.$refs.regusername = "";
+            this.$refs.regpassword = "";
+            this.$refs.checkpassword = "";
+            if (this.$refs.regForm) {
+              this.$refs.regForm.resetFields();
+            }
+          })
+          .catch((msg) => {
+            if (msg === false) console.warn("validate error"); // fasle 为校验错误
+          })
+      );
+    },
+    handingClickBtn() {
+      this.$refs.loginBtn.click();
+    },
+    handleLogin() {
+      // const checkedBool = this.checked;
+      return (
+        this.$refs.logForm
+          .validate()
+          .then(() => {
+            const checked = Number(this.checked);
+            // const checkedBool = this.checked;
+            const { logusername, logpassword } = this.form;
+            return user.login({
+              username: logusername,
+              password: logpassword,
+              checked,
+            });
+          })
+          // 延迟 2 秒，测试按钮 loading
+          .then((...arg) => {
+            return new Promise((res) =>
+              setTimeout(() => {
+                res(...arg);
+              }, 2000)
+            );
+          })
+          .then(({  userInfo }) => {
+            console.log(userInfo)
+            this.$router.push('/')
+            // this.updateUserInfo({
+            //   token: token,
+            //   username: userInfo.nickname,
+            //   avatar: "blank",
+            //   org: userInfo.depName,
+            // });
+            // this.shouldClearToken(!checkedBool);
+          })
+          .catch((msg) => {
+            if (msg === false) console.warn("validate error"); // fasle 为校验错误
+            if (msg) this.$message.error(msg); // 字符串为登录错误
+          })
+      );
+    },
+    switchReg() {
+      this.switchLogin = false;
+      this.$refs.logForm.resetFields();
+    },
+    switchLog() {
+      this.$refs.regForm.resetFields();
+      this.switchLogin = true;
+    },
+    // ...mapGetters("userInfo", ["isLogin"]),
+    // ...mapMutations("userInfo", ["updateUserInfo", "shouldClearToken"]),
+    login() {
+      this.updateUserInfo({
+        token: "dfasfdsa",
+        username: "测试",
+        avatar: "blank",
+        org: "测试",
+      });
+    },
+  },
 };
 </script>
 
