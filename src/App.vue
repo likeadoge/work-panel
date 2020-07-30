@@ -12,6 +12,9 @@
         <a-menu-item key="3">
           <router-link to="/login">Login</router-link>
         </a-menu-item>
+        <a-menu-item key="4">
+          <router-link to="/template">模板库</router-link>
+        </a-menu-item>
         <!-- <a-menu-item key="3">nav 3</a-menu-item> -->
       </a-menu>
     </a-layout-header>
