@@ -38,6 +38,7 @@
         </a-menu>
       </a-layout-sider>
       <a-layout-content :style="{ padding: '0 24px', minHeight: '280px' }">
+      <a-button type="default" style="float: right;" @click="showProject"><a-icon type="plus"/>新建项目</a-button>
         <task-panel
           v-for="(v) in list"
           :key="v.id"
@@ -46,6 +47,7 @@
           :boards="v.boards"
           @sort="boards=>sortBoards(v.id,boards)"
         />
+        <create-project-modal ref="project"/>
       </a-layout-content>
     </a-layout>
   </div>
@@ -55,12 +57,14 @@
 import TaskPanel from "./home/TaskPanel";
 import ph from "@/utils/placeholder";
 import uuid from "@/utils/uuid";
+import CreateProjectModal from "./components/CreateProjectModal";
 
 export default {
   components: {
-    TaskPanel,
+    TaskPanel, CreateProjectModal,
   },
   data: () => ({
+    visibleProject: false,
     // list:[]
     list: new Array(5).fill(0).map(() => ({
       id: uuid(), // 项目 id
@@ -75,7 +79,10 @@ export default {
     sortBoards(id,arr){
       if(this.list.find(v=>v.id == id))
       this.list.find(v=>v.id == id).boards = arr
-    }
+    },
+    showProject() {
+      this.$refs.project.visibleProject = true
+    },
   },
 
   mounted() {
