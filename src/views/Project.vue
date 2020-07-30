@@ -27,7 +27,7 @@
             :rowId="v.rowId"
             :colId="v.colId"
             :items="v.items"
-            @add="({rowId,colId,sort})=>addItem({rowId,colId,sort})"
+            @add="({rowId,colId,sort,info})=>addItem({rowId,colId,sort,info})"
             @update="({rowId,colId,items})=>updateItems({rowId,colId,items})"
           />
 
@@ -89,13 +89,13 @@ export default {
     },
   },
   methods: {
-    addItem({ rowId, colId, sort }) {
+    addItem({ rowId, colId, sort ,info = {}}) {
       // console.info("add item", { rowId, colId });
       this.list.push({
         rowId,
         colId,
         sort,
-        content: ph(20, 100),
+        content: info.content || '',
       });
     },
     updateItems({ rowId, colId, items }) {
