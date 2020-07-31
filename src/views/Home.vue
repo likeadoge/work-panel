@@ -1,44 +1,46 @@
 <template>
   <div style="height:100%;padding: 50px 50px 0 50px">
     <a-layout style="height:100%;padding: 24px 0; background: #fff">
-      <a-layout-sider width="200" style="background: #fff;overflow:auto">
+      <a-layout-sider width="216px" style="background: #fff; overflow:auto">
         <a-menu
           mode="inline"
+          theme="light"
           :default-selected-keys="['1']"
           :default-open-keys="['sub1']"
-          style="height: 100%"
+          style="height: 100%;"
         >
           <a-sub-menu key="sub1">
             <span slot="title">
-              <a-icon type="user" />项目
+              <icon-font type="icon-projectCount" />项目管理
             </span>
             <a-menu-item key="1">option1</a-menu-item>
             <a-menu-item key="2">option2</a-menu-item>
             <a-menu-item key="3">option3</a-menu-item>
             <a-menu-item key="4">option4</a-menu-item>
+            <a-menu-item key="0">
+              <a-button type="link" style="padding: 0px;" @click="showProject"><a-icon style="margin-right: 0px;" type="plus"/>新建项目</a-button>
+            </a-menu-item>
+            
           </a-sub-menu>
-          <a-sub-menu key="sub2">
+          <a-menu-item key="sub2">
+            <icon-font type="icon-template" />模板
+          </a-menu-item>
+          <a-menu-item key="sub3">
+            <icon-font type="icon-library" />归档库
+          </a-menu-item>
+          <!-- <a-sub-menu key="sub3">
             <span slot="title">
-              <a-icon type="laptop" />模板
-            </span>
-            <a-menu-item key="5">option5</a-menu-item>
-            <a-menu-item key="6">option6</a-menu-item>
-            <a-menu-item key="7">option7</a-menu-item>
-            <a-menu-item key="8">option8</a-menu-item>
-          </a-sub-menu>
-          <a-sub-menu key="sub3">
-            <span slot="title">
-              <a-icon type="notification" />已归档
+              <icon-font type="icon-library" />已归档
             </span>
             <a-menu-item key="9">option9</a-menu-item>
             <a-menu-item key="10">option10</a-menu-item>
             <a-menu-item key="11">option11</a-menu-item>
             <a-menu-item key="12">option12</a-menu-item>
-          </a-sub-menu>
+          </a-sub-menu> -->
         </a-menu>
       </a-layout-sider>
       <a-layout-content :style="{ padding: '0 24px', minHeight: '280px' }">
-      <a-button type="default" style="float: right;" @click="showProject"><a-icon type="plus"/>新建项目</a-button>
+      
         <task-panel
           v-for="(v) in list"
           :key="v.id"
@@ -90,7 +92,7 @@ export default {
 };
 </script>
 
-<style >
+<style scoped>
 html,
 body {
   height: 100%;
