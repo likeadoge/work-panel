@@ -1,8 +1,7 @@
 module.exports = {
     outputDir: 'build',
-    publicPath: process.env.NODE_ENV === 'production'
-        ? '/work-panel/'
-        : '/',
+    publicPath: process.env.NODE_ENV === 'production' ?
+        '/work-panel/' : '/',
     runtimeCompiler: true,
     devServer: {
         port: 8080,
@@ -13,5 +12,20 @@ module.exports = {
                 changeOrigin: true
             },
         }
+    },
+    css: {
+        loaderOptions: {
+            less: {
+                lessOptions: {
+                    modifyVars: {
+                        'primary-color': '#13c2c2',
+                        'link-color': '#13c2c2',
+                        'border-radius-base': '4px',
+                        'theme': '#13c2c2'
+                    },
+                    javascriptEnabled: true,
+                },
+            },
+        },
     },
 }
