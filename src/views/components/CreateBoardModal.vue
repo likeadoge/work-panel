@@ -1,5 +1,5 @@
 <template>
-  <a-modal :visible="visibleBoard" title="新建看板" @cancel="()=> (this.visibleBoard = false)" :width="800" centered>
+  <a-modal :visible="visibleBoard" title="新建看板" @cancel="()=> (this.visibleBoard = false)" :width="800">
     <a-form-model
       :model="form"
       :rules="rules"
@@ -10,14 +10,14 @@
       <a-form-model-item label="看板名称" ref="name" prop="name">
         <a-input v-model="form.name" placeholder="请输入看板名称" />
       </a-form-model-item>
-      <a-form-model-item label="所属项目">
-        <a-select defaultValue="iData项目管理">
-          <a-select-option value="1">iData项目管理</a-select-option>
+      <a-form-model-item label="所属项目" ref="project" prop="project">
+        <a-select v-model="form.project">
+          <a-select-option value="iData项目管理">iData项目管理</a-select-option>
         </a-select>
       </a-form-model-item>
     </a-form-model>
     <template slot="footer">
-      <a-checkbox style="float: left;">继续创建看板</a-checkbox>
+      <a-checkbox @change="onChange" style="float: left;">继续创建看板</a-checkbox>
       <a-button @click="()=> (this.visibleBoard = false)">取消</a-button>
       <a-button type="primary" :loading="loading" @click="onSubmit">确定</a-button>
     </template>
@@ -32,7 +32,7 @@ export default {
     wrapperCol: { span: 14 },
     form: {
       name: "",
-      project: ""
+      project: "iData项目管理"
     },
     rules: {
       name: [{ required: true, message: "请输入看板名称", trigger: "change" }]
@@ -42,13 +42,17 @@ export default {
     onSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          alert("submit!");
+          console.log("新建看板")
+          console.log(this.form)
         } else {
           console.log("error submit!!");
           return false;
         }
       });
-    }
+    },
+    onChange(e) {
+      console.log(`checked = ${e.target.checked}`);
+    },
   }
 };
 </script>
