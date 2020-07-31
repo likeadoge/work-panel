@@ -15,7 +15,6 @@
       gridGap:'20px',
       padding:'20px',
       overflow:'auto',
-      height:'100%',
       width:`${(cols.length +1) * 338 + 20}px`,
       positon:'relative',
       gridTemplateColumns:`repeat(${(cols.length +1)},320px)`
@@ -23,7 +22,7 @@
         >
           <template v-for="v in cells">
             <cell-panel
-              v-if="v.type === 'panel'"
+              v-if=" v.type === 'panel'"
               :key="`${v.rowId}-${v.colId}`"
               :rowId="v.rowId"
               :colId="v.colId"
@@ -33,7 +32,7 @@
             />
 
             <row-opreater
-              v-if="v.type === 'operate'"
+              v-if="v.type === 'operate' "
               :key="`${v.rowId}-${v.colId}`"
               :rowId="v.rowId"
               @rowUp="({rowId})=>rowUp(rowId)"
