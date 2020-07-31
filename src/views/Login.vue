@@ -4,7 +4,6 @@
       <div style="display: flex; align-items:center; ">
         <img src="../assets/login_logo/bg-left.png" style="width: 96%; margin-left: 30px;" />
       </div>
-
       <div
         style="display: flex; flex-direction: column; justify-content: center; height: 450px; margin-left: 70px; margin-right: 80px; width: 400px;"
       >
@@ -246,7 +245,8 @@ export default {
           })
       );
     },
-    handingClickBtn() {
+    handingClickBtn() 
+    {
       this.$refs.loginBtn.click();
     },
     handleLogin() {
@@ -294,16 +294,6 @@ export default {
       this.$refs.regForm.resetFields();
       this.switchLogin = true;
     },
-    // ...mapGetters("userInfo", ["isLogin"]),
-    // ...mapMutations("userInfo", ["updateUserInfo", "shouldClearToken"]),
-    login() {
-      this.updateUserInfo({
-        token: "dfasfdsa",
-        username: "测试",
-        avatar: "blank",
-        org: "测试",
-      });
-    },
   },
 };
 </script>
@@ -339,7 +329,7 @@ export default {
   right: 0;
   bottom: 0;
   position: fixed;
-  /* background: #fff; */
+  background-color: #fff;
   background: url("../assets/login_logo/login-bg.png") no-repeat;
   background-size: 100% 100%;
   display: flex;
