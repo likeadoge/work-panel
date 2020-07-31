@@ -18,7 +18,7 @@
       height:'100%',
       width:`${(cols.length +1) * 338 + 20}px`,
       positon:'relative',
-      gridTemplateColumns:`repeat(${(cols.length +1)},280px)`
+      gridTemplateColumns:`repeat(${(cols.length +1)},320px)`
     }"
         >
           <template v-for="v in cells">

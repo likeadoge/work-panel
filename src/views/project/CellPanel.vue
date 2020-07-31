@@ -10,13 +10,13 @@
       >
         <div class="panel card" v-for="(v,i) in items" :key="i">{{v.content}}</div>
       </draggable>
-      <div style="margin-top:-16px" v-if="!isAddingCard">
+      <div style="" class="add-btn" v-if="!isAddingCard">
         <a-button type="link" icon="plus" @click="changeStatus('add')">添加新的卡片</a-button>
       </div>
 
       <div v-if="isAddingCard" style="overflow:hidden" class="input panel card">
         <a-textarea placeholder="Basic usage" v-model="addCardInfo.content" :rows="4" />
-        <div style="padding:8px 0 0 0;float:right">
+        <div  class="detail-btn-cntr">
           <a-popover v-model="userVisible" trigger="click">
             <a-menu
               @select="userSelect"
@@ -58,11 +58,11 @@
               type="primary"
               shape="circle"
               icon="schedule"
-              class="detail-btn"
+              class="detail-btn last"
             />
           </a-popover>
         </div>
-        <div style="padding:8px 0 0 0;float:left">
+        <div class="btn-cntr">
           <a-button type="primary" @click="add"  style="margin-right:8px;">确定</a-button>
           <a-button type="link"  @click="changeStatus('def')">取消</a-button>
         </div>
@@ -145,8 +145,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import url(./project.scss);
+<style lang="css" scoped>
 
 .cell-panel {
     background:rgb(242,243,243);
@@ -161,9 +160,27 @@ export default {
     padding:18px;
     margin-bottom: 18px;
 }
-
-.card.panel.input .detail-btn{
+.card.panel.input {
+    padding:12px;
 }
 
+.card.panel.input .detail-btn{
+  margin-right: 8px;;
+}
 
+.card.panel.input .btn-cntr{
+  padding:12px 0 0 0;
+}
+.card.panel.input .detail-btn-cntr{
+  padding:12px 0 0 0;float:right;height:32px;line-height: 32px;
+}
+
+.card.panel.input .detail-btn.last{
+  margin-right: 2px;
+}
+
+.add-btn{
+  margin-top:-16px;
+  margin-left:-16px;
+}
 </style>
