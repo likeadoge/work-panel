@@ -25,7 +25,10 @@ Vue.use(Storage, options);
 
 
 window.Vue = Vue
+window.rr = router
 /* eslint-disable no-new */
+
+document.body.style.display = 'none'
 new Vue({
   el: '#app',
   components: { App },
@@ -37,18 +40,20 @@ new Vue({
   },
 
   mounted() {
-    if(!Vue.ls.get("ACCESS_TOKEN")){
+    if (!Vue.ls.get("ACCESS_TOKEN")) {
       this.$route.push('/login')
-    }else{
+    } else {
       user.getUserInfo().then(info => {
         this.updateUserInfo({
           token: Vue.ls.get("ACCESS_TOKEN"),
-          username: info.nickname,
+          username: info.realname,
           avatar: "blank",
           org: info.depName,
         })
-      }).catch(()=>{
-        this.$route.push('/login')
+      }).finally(() => {
+        setTimeout(() => {
+          document.body.style.display = 'block'
+        }, 200);
       })
     }
   }

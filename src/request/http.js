@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import axios from 'axios'
 import { message } from 'ant-design-vue'
-
+import router from '@/router'
 
 export const msgError = (msg) => {
-    if(msg) message.error(msg, 3)
+    if (msg) message.error(msg, 3)
     return Promise.reject(msg)
 };
 
@@ -25,15 +25,21 @@ service.then(v => {
         }
         return request
     }, (error) => {
-        console.error(error)
+        console.log(error)
         return Promise.reject('请求逻辑错误')
     })
 
     v.interceptors.response.use((response) => {
         return response.data
     }, (error) => {
+        const e = error.response?.data?.message || '无法连接到服务器'
+
         console.error(error)
-        return Promise.reject('无法连接到服务器')
+        if ((e.indexOf("Token失效") >= 0)
+            && (router.currentRoute.path !== '/login')) {
+            return router.push('/login').then(() => Promise.reject(e))
+        }
+        return Promise.reject(e)
     })
 })
 

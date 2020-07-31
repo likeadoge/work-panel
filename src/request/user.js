@@ -12,4 +12,4 @@ export const register = ({ username, password }) => post('/sys/user/register', {
     username, password
 })
 
-export const getUserInfo = () => get('/sys/userInfo', {})
+export const getUserInfo = () => get.withoutError('/sys/userInfo', {})

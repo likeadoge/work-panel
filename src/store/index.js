@@ -22,14 +22,12 @@ const mutations = {
     state.avatar = avatar
     state.org = org
   },
-
   removeUserInfo(state) {
     state.token = ''
     state.username = ''
     state.avatar = ''
     state.org = ''
   },
-
   shouldClearToken(state, bool) {
     state.shouldClearToken = bool
   }

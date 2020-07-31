@@ -245,7 +245,8 @@ export default {
           })
       );
     },
-    handingClickBtn() {
+    handingClickBtn() 
+    {
       this.$refs.loginBtn.click();
     },
     handleLogin() {
@@ -328,7 +329,7 @@ export default {
   right: 0;
   bottom: 0;
   position: fixed;
-  /* background: #fff; */
+  background-color: #fff;
   background: url("../assets/login_logo/login-bg.png") no-repeat;
   background-size: 100% 100%;
   display: flex;
