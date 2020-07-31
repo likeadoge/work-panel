@@ -30,8 +30,4 @@ export default {
 </script>
 
 <style scoped>
-.row-operate {
-  /* height: 30px; */
-  /* background: #66ffcc; */
-}
 </style>
