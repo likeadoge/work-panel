@@ -4,7 +4,6 @@
       <div style="display: flex; align-items:center; ">
         <img src="../assets/login_logo/bg-left.png" style="width: 96%; margin-left: 30px;" />
       </div>
-
       <div
         style="display: flex; flex-direction: column; justify-content: center; height: 450px; margin-left: 70px; margin-right: 80px; width: 400px;"
       >
@@ -293,16 +292,6 @@ export default {
     switchLog() {
       this.$refs.regForm.resetFields();
       this.switchLogin = true;
-    },
-    // ...mapGetters("userInfo", ["isLogin"]),
-    // ...mapMutations("userInfo", ["updateUserInfo", "shouldClearToken"]),
-    login() {
-      this.updateUserInfo({
-        token: "dfasfdsa",
-        username: "测试",
-        avatar: "blank",
-        org: "测试",
-      });
     },
   },
 };
