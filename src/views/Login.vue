@@ -126,7 +126,7 @@
 <script>
 // import { client } from "../event/index.ts";
 // import TitleBar from "@/components/TitleBar";
-// import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 import * as user from "@/request/user";
 
@@ -204,6 +204,8 @@ export default {
   },
 
   methods: {
+    ...mapGetters("userInfo", ["isLogin"]),
+    ...mapMutations("userInfo", ["updateUserInfo", "shouldClearToken"]),
     handingClickRegBtn() {
       this.$refs.regBtn.click();
     },
@@ -213,9 +215,9 @@ export default {
           .validate()
           .then(() => {
             const { regusername, regpassword } = this.regForm;
-            return user.testRegister({
-              regusername,
-              regpassword,
+            return user.register({
+              username: regusername,
+              password: regpassword,
             });
           })
           //延迟2秒
@@ -270,20 +272,17 @@ export default {
               }, 2000)
             );
           })
-          .then(({  userInfo }) => {
-            console.log(userInfo)
-            this.$router.push('/')
-            // this.updateUserInfo({
-            //   token: token,
-            //   username: userInfo.nickname,
-            //   avatar: "blank",
-            //   org: userInfo.depName,
-            // });
-            // this.shouldClearToken(!checkedBool);
+          .then(({ token, userInfo }) => {
+            this.$router.push("/");
+            this.updateUserInfo({
+              token: token,
+              username: userInfo.nickname,
+              avatar: "blank",
+              org: userInfo.depName,
+            })
           })
           .catch((msg) => {
             if (msg === false) console.warn("validate error"); // fasle 为校验错误
-            if (msg) this.$message.error(msg); // 字符串为登录错误
           })
       );
     },
