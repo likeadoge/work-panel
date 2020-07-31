@@ -1,6 +1,6 @@
 <template>
-  <div style="overflow: hidden;">
-    <a-collapse :bordered="false" >
+  <div style="overflow: hidden; background-color: #fcfcfd;">
+    <a-collapse :bordered="false" style="background-color: #fcfcfd;">
       <a-collapse-panel>
         <template slot="header">
           <icon-font type="icon-project" style="font-size: 18px; color: #45e2e2; margin-right: 10px;" />
@@ -65,10 +65,10 @@ export default {
 
 <style scoped>
 .ant-collapse > div{
-  background-color: #fff;
+  background-color: #fcfefd;
 }
 .ant-collapse-header{
-  margin-bottom: 24px;
+  margin-bottom: 24px;  
 }
 .ant-collapse-content-box > div {
   border-bottom: none;
