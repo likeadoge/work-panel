@@ -1,5 +1,5 @@
 <template>
-  <a-layout id="components-layout-demo-top-side">
+  <a-layout id="components-layout-demo-top-side" style="background-color: #13c2c2;">
     <a-layout-header class="header">
       <div class="logo" />
       <a-menu
@@ -7,7 +7,7 @@
         style="float:left"
         mode="horizontal"
         :selected-keys="[]"
-        :style="{ lineHeight: '64px' }"
+        :style="{ lineHeight: '63px', backgroundColor: '#13c2c2' }"
       >
         <a-menu-item key="1">
           <router-link to="/">Home</router-link>
