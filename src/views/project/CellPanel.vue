@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="panel card">
+  <div class="cell-panel">
+    <div >
       <draggable
         v-model="list"
         :element="'div'"
@@ -8,13 +8,13 @@
         :group="{name:'card'}"
         style="padding-bottom:16px"
       >
-        <div class="item border-card" v-for="(v,i) in items" :key="i">{{v.content}}</div>
+        <div class="panel card" v-for="(v,i) in items" :key="i">{{v.content}}</div>
       </draggable>
       <div style="margin-top:-16px" v-if="!isAddingCard">
         <a-button type="link" icon="plus" @click="changeStatus('add')">添加新的卡片</a-button>
       </div>
 
-      <div v-if="isAddingCard" style="overflow:hidden">
+      <div v-if="isAddingCard" style="overflow:hidden" class="input panel card">
         <a-textarea placeholder="Basic usage" v-model="addCardInfo.content" :rows="4" />
         <div style="padding:8px 0 0 0;float:right">
           <a-popover v-model="userVisible" trigger="click">
@@ -32,7 +32,7 @@
               type="primary"
               shape="circle"
               icon="user"
-              style="margin-right:12px"
+              class="detail-btn"
             />
           </a-popover>
 
@@ -43,7 +43,7 @@
               type="primary"
               shape="circle"
               icon="history"
-              style="margin-right:12px"
+              class="detail-btn"
             />
           </a-range-picker>
           <a-popover v-model="hourVisible" trigger="click">
@@ -58,13 +58,13 @@
               type="primary"
               shape="circle"
               icon="schedule"
-              style="margin-right:2px"
+              class="detail-btn"
             />
           </a-popover>
         </div>
         <div style="padding:8px 0 0 0;float:left">
-          <a-button type="primary" @click="add" :size="'small'" style="margin-right:8px;">确定</a-button>
-          <a-button type="link" :size="'small'" @click="changeStatus('def')">取消</a-button>
+          <a-button type="primary" @click="add"  style="margin-right:8px;">确定</a-button>
+          <a-button type="link"  @click="changeStatus('def')">取消</a-button>
         </div>
       </div>
     </div>
@@ -147,4 +147,23 @@ export default {
 
 <style lang="scss" scoped>
 @import url(./project.scss);
+
+.cell-panel {
+    background:rgb(242,243,243);
+    padding:18px
+}
+
+.card.panel {
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.01);
+    transition: all 0.3s ease-out;
+    padding:18px;
+    margin-bottom: 18px;
+}
+
+.card.panel.input .detail-btn{
+}
+
+
 </style>

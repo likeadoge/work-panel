@@ -16,7 +16,7 @@
       padding:'20px',
       overflow:'auto',
       height:'100%',
-      width:`${(cols.length +1) * 300 + 20}px`,
+      width:`${(cols.length +1) * 338 + 20}px`,
       positon:'relative',
       gridTemplateColumns:`repeat(${(cols.length +1)},280px)`
     }"
@@ -172,6 +172,18 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import url(./project/project.scss);
+<style lang="css" scoped>
+
+.page-outer{
+    height: 100%;
+    width: 100%;
+    padding : 32px 48px 0 48px;
+}
+
+.page-inner{
+    height: 100%;
+    width: 100%;
+    background: #fff;
+    overflow: auto;
+}
 </style>
