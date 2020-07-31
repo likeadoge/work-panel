@@ -1,6 +1,6 @@
 <template>
-  <a-layout id="components-layout-demo-top-side" style="background-color: #13c2c2;">
-    <a-layout-header class="header">
+  <a-layout id="components-layout-demo-top-side" >
+    <a-layout-header class="header" style="background-color: #13c2c2;">
       <div class="logo" />
       <a-menu
         theme="dark"
