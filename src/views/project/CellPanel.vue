@@ -144,28 +144,7 @@ export default {
   },
 };
 </script>
-<style scoped>
-.card {
-  border-radius: 4px;
-  background-color: #fff;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.01);
-  transition: all 0.3s ease-out;
-  padding: 8px;
-}
 
-.border-card {
-  border: 1px solid #dee0e3;
-  border-radius: 6px;
-  padding: 4px 8px;
-  cursor: pointer;
-  transition: all 0.3s ease-out;
-}
-
-.item {
-  margin-bottom: 8px;
-}
-
-.work-card-ghost {
-  opacity: 0.5;
-}
+<style lang="scss" scoped>
+@import url(./project.scss);
 </style>

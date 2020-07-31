@@ -1,15 +1,16 @@
 <template>
-  <flex-col style="height:100%;">
-    <flex-fixed></flex-fixed>
+  <div class="page-outer">
+    <flex-col style="height:100%;" class="page-inner">
+      <flex-fixed></flex-fixed>
 
-    <h1 style="margin:24px 0 0 24px">
-      {{name}}
-      <a-button type="primary" @click="addRow" style="margin: 0 12px">add row</a-button>
-      <a-button type="primary" @click="addCol">add col</a-button>
-    </h1>
-    <flex-fill>
-      <div
-        :style="{
+      <h1 style="margin:24px 0 0 24px">
+        {{name}}
+        <a-button type="primary" @click="addRow" style="margin: 0 12px">add row</a-button>
+        <a-button type="primary" @click="addCol">add col</a-button>
+      </h1>
+      <flex-fill>
+        <div
+          :style="{
       display:'grid',
       gridGap:'20px',
       padding:'20px',
@@ -19,33 +20,34 @@
       positon:'relative',
       gridTemplateColumns:`repeat(${(cols.length +1)},280px)`
     }"
-      >
-        <template v-for="v in cells">
-          <cell-panel
-            v-if="v.type === 'panel'"
-            :key="`${v.rowId}-${v.colId}`"
-            :rowId="v.rowId"
-            :colId="v.colId"
-            :items="v.items"
-            @add="({rowId,colId,sort,info})=>addItem({rowId,colId,sort,info})"
-            @update="({rowId,colId,items})=>updateItems({rowId,colId,items})"
-          />
+        >
+          <template v-for="v in cells">
+            <cell-panel
+              v-if="v.type === 'panel'"
+              :key="`${v.rowId}-${v.colId}`"
+              :rowId="v.rowId"
+              :colId="v.colId"
+              :items="v.items"
+              @add="({rowId,colId,sort,info})=>addItem({rowId,colId,sort,info})"
+              @update="({rowId,colId,items})=>updateItems({rowId,colId,items})"
+            />
 
-          <row-opreater
-            v-if="v.type === 'operate'"
-            :key="`${v.rowId}-${v.colId}`"
-            :rowId="v.rowId"
-            @rowUp="({rowId})=>rowUp(rowId)"
-            @rowDown="({rowId})=>rowDown(rowId)"
-            @rowTop="({rowId})=>rowTop(rowId)"
-            @rowBottom="({rowId})=>rowBottom(rowId)"
-            @rowDelete="({rowId})=>rowDelete(rowId)"
-            @rowCopy="({rowId})=>rowCopy(rowId)"
-          />
-        </template>
-      </div>
-    </flex-fill>
-  </flex-col>
+            <row-opreater
+              v-if="v.type === 'operate'"
+              :key="`${v.rowId}-${v.colId}`"
+              :rowId="v.rowId"
+              @rowUp="({rowId})=>rowUp(rowId)"
+              @rowDown="({rowId})=>rowDown(rowId)"
+              @rowTop="({rowId})=>rowTop(rowId)"
+              @rowBottom="({rowId})=>rowBottom(rowId)"
+              @rowDelete="({rowId})=>rowDelete(rowId)"
+              @rowCopy="({rowId})=>rowCopy(rowId)"
+            />
+          </template>
+        </div>
+      </flex-fill>
+    </flex-col>
+  </div>
 </template>
 
 <script>
@@ -68,9 +70,9 @@ export default {
   }),
   computed: {
     cells() {
-      return this.rows.flatMap(({rowId}) =>
+      return this.rows.flatMap(({ rowId }) =>
         this.cols
-          .map(({colId} ) => ({
+          .map(({ colId }) => ({
             rowId,
             colId,
             type: "panel",
@@ -89,13 +91,13 @@ export default {
     },
   },
   methods: {
-    addItem({ rowId, colId, sort ,info = {}}) {
+    addItem({ rowId, colId, sort, info = {} }) {
       // console.info("add item", { rowId, colId });
       this.list.push({
         rowId,
         colId,
         sort,
-        content: info.content || '',
+        content: info.content || "",
       });
     },
     updateItems({ rowId, colId, items }) {
@@ -170,10 +172,6 @@ export default {
 };
 </script>
 
-<style scoped>
-.cell-panel {
-  /* height: 30px; */
-  background: #66ccff;
-}
-
+<style lang="scss" scoped>
+@import url(./project/project.scss);
 </style>

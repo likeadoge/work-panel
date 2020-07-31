@@ -41,7 +41,7 @@ new Vue({
 
   mounted() {
     if (!Vue.ls.get("ACCESS_TOKEN")) {
-      this.$route.push('/login')
+      this.$router.push('/login')
     } else {
       user.getUserInfo().then(info => {
         this.updateUserInfo({
