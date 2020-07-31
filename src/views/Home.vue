@@ -1,7 +1,7 @@
 <template>
   <div style="height:100%;padding: 50px 50px 0 50px">
-    <a-layout style="height:100%;padding: 24px 0; background: #fff">
-      <a-layout-sider width="216px" style="background: #fff; overflow:auto">
+    <a-layout style="height:100%;padding: 24px 0; background-color: #fcfcfd;">
+      <a-layout-sider width="216px" style="overflow:auto">
         <a-menu
           mode="inline"
           theme="light"
@@ -11,7 +11,7 @@
         >
           <a-sub-menu key="sub1">
             <span slot="title">
-              <icon-font type="icon-projectCount" />项目管理
+              <icon-font type="icon-projectCount" class="sidebarfont" />项目管理
             </span>
             <a-menu-item key="1">option1</a-menu-item>
             <a-menu-item key="2">option2</a-menu-item>
@@ -23,10 +23,10 @@
             
           </a-sub-menu>
           <a-menu-item key="sub2">
-            <icon-font type="icon-template" />模板
+            <icon-font type="icon-template" class="sidebarfont"/>模板
           </a-menu-item>
           <a-menu-item key="sub3">
-            <icon-font type="icon-library" />归档库
+            <icon-font type="icon-library" class="sidebarfont"/>归档库
           </a-menu-item>
           <!-- <a-sub-menu key="sub3">
             <span slot="title">
@@ -108,5 +108,9 @@ body {
   background: rgba(255, 255, 255, 0.2);
   margin: 16px 28px 16px 0;
   float: left;
+}
+.sidebarfont {
+  font-size: 14px;
+  color: #aaa;
 }
 </style>
