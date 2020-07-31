@@ -3,6 +3,7 @@ import Antd from 'ant-design-vue';
 import App from './App';
 import GlobelComponents from './components/globe/index';
 import 'ant-design-vue/dist/antd.css';
+import store from './store'
 import router from './router'
 import './style/all.css'
 import Storage from 'vue-ls';
@@ -25,5 +26,6 @@ new Vue({
   el: '#app',
   components: { App },
   router,
+  store,
   template: '<App/>',
 });

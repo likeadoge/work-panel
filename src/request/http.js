@@ -4,7 +4,7 @@ import { message } from 'ant-design-vue'
 
 
 export const msgError = (msg) => {
-    message.error(msg, 3)
+    if(msg) message.error(msg, 3)
     return Promise.reject(msg)
 };
 
