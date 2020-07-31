@@ -1,13 +1,13 @@
 <template>
-  <div style="height:100%;padding: 50px 50px 0 50px">
+  <div style="height:100%;padding: 32px 48px;">
     <a-layout style="height:100%;padding: 24px 0; background-color: #fcfcfd;">
-      <a-layout-sider width="216px" style="overflow:auto">
+      <a-layout-sider width="216px" style="overflow:auto; ">
         <a-menu
           mode="inline"
           theme="light"
           :default-selected-keys="['1']"
           :default-open-keys="['sub1']"
-          style="height: 100%;"
+          style="height: 100%; background-color: #fcfcfd;"
         >
           <a-sub-menu key="sub1">
             <span slot="title">
@@ -39,7 +39,7 @@
           </a-sub-menu> -->
         </a-menu>
       </a-layout-sider>
-      <a-layout-content :style="{ padding: '0 24px', minHeight: '280px' }">
+      <a-layout-content :style="{ padding: '0 24px', minHeight: '280px', backgroundColor: '#fcfcfd' }">
       
         <task-panel
           v-for="(v) in list"
