@@ -1,6 +1,6 @@
 <template>
-  <div style="overflow: hidden; background-color: #fcfcfd;">
-    <a-collapse :bordered="false" style="background-color: #fcfcfd;">
+  <div style="overflow: hidden;">
+    <a-collapse :bordered="false">
       <a-collapse-panel>
         <template slot="header">
           <icon-font type="icon-project" style="font-size: 18px; color: #45e2e2; margin-right: 10px;" />
@@ -17,11 +17,12 @@
         >
           <div class="board border-card" v-for="v in boards" :key="v.id" style="padding: 16px 20px; border: #f2f2f2; box-shadow: 0 3px 8px 0 rgba(46,49,72,.1)">{{v.title}}</div>
           <div class="board-add border-card" style="display: flex; justify-content: center; align-items: center;">
-            <icon-font type="icon-AddItem" style="font-size: 30px;"/><span style="margin-left: 8px; font-size: 20px;">添加看板</span>
+            <icon-font type="icon-AddItem" style="font-size: 30px;"/><span style="margin-left: 8px; font-size: 20px;" @click="showBoard">添加看板</span>
           </div>
         </draggable>
       </a-collapse-panel>
     </a-collapse>
+    <create-board-modal ref="board" /> 
 
     <!-- <div class="task-panel">
       <icon-font type="icon-project" style="font-size: 14px; color: #45e2e2;" />
@@ -46,10 +47,21 @@
 
 <script>
 import draggable from "vuedraggable";
+import CreateBoardModal from "../components/CreateBoardModal"
 
 export default {
-  components: { draggable },
+  components: { draggable, CreateBoardModal, },
   props: ["title", "subTitle", "boards"],
+  data() {
+    return {
+      visibleBoard: false,
+    }
+  },
+  methods: {
+    showBoard() {
+      this.$refs.board.visibleBoard = true
+    },
+  },
   computed: {
     list: {
       get() {
@@ -65,13 +77,17 @@ export default {
 
 <style scoped>
 .ant-collapse > div{
-  background-color: #fcfefd;
+  background-color: #fcfcfd;
+}
+.ant-collapse-item {
+  border-bottom: none;
 }
 .ant-collapse-header{
   margin-bottom: 24px;  
 }
+
 .ant-collapse-content-box > div {
-  border-bottom: none;
+  border-bottom-color: #fcfcfd;
   margin-top: 8px;
 }
 .task-panel {
@@ -80,7 +96,8 @@ export default {
 }
 .board {
   height: 104px;
-  background-color: #fff;
+  background-color: #fcfefd;
+
 }
 .board-add {
   height: 104px;
