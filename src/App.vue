@@ -41,7 +41,7 @@
         <router-view />
       </div>
     </a-layout-content>
-    <a-layout-footer style="text-align: center">Copyright © 2000 - 2020 DAMENG. All Rights Reserved.</a-layout-footer>
+    <!-- <a-layout-footer style="text-align: center">Copyright © 2000 - 2020 DAMENG. All Rights Reserved.</a-layout-footer> -->
   </a-layout>
 </template>
 
