@@ -1,22 +1,31 @@
 <template>
   <div class="page-outer">
-    <flex-col style="height:100%;" class="page-inner">
-      <flex-fixed></flex-fixed>
+    <flex-col style="height:100%;positon:relative" class="page-inner">
+      <flex-fixed>
+        <flex-row style="magin:0;height:67px;line-height:72px;margin-bottom:0">
+          <flex-fixed>
+             <a-button type="link" icon="left" :size="'large'" />
+   
+          </flex-fixed>
+          <flex-fill>
+            <b style="font-size: 1.5em;\">{{title}}</b>
+            <span v-if="!!templateName" style="padding-left:12px;vertical-align: 2px;"><a-tag color="rgb(11,196,196)">{{templateName}}</a-tag></span>
+            <span style="padding-left:2px;vertical-align: 2px;">2020-07-24 至 2020-08-04</span>
+          </flex-fill>
+        </flex-row>
+      </flex-fixed>
 
-      <h1 style="margin:24px 0 0 24px">
-        {{title}}
-        <a-button type="primary" @click="addRow" style="margin: 0 12px">add row</a-button>
-        <a-button type="primary" @click="addCol">add col</a-button>
-      </h1>
-      <flex-fill>
+      <flex-fill :style="{
+
+      positon:'relative',
+      overflow:'auto',
+      }">
         <div
           :style="{
       display:'grid',
       gridGap:'20px',
-      padding:'20px',
-      overflow:'auto',
+      padding:'5px 20px 20px 20px',
       width:`${(cols.length +1) * 338 + 20}px`,
-      positon:'relative',
       gridTemplateColumns:`repeat(${(cols.length +1)},320px)`
     }"
         >
@@ -43,6 +52,9 @@
               @rowCopy="({rowId})=>rowCopy(rowId)"
             />
           </template>
+
+          <a-button @click="()=>addRow()">添加泳道</a-button>
+
         </div>
       </flex-fill>
     </flex-col>
@@ -61,7 +73,8 @@ export default {
     CellPanel,
   },
   data: () => ({
-    id: uuid(),
+    id: "2020080314254735u0bao9e85xmlmyzo",
+    templateName:'',
     title: "",
     rows: [],
     cols: [],
@@ -94,13 +107,12 @@ export default {
   },
   methods: {
     addItem({ rowId, colId, sort, info = {} }) {
-      // console.info("add item", { rowId, colId });
       this.cards.push({
-        rowId,
-        colId,
-        sort,
-        content: info.content || "",
-      });
+        rowId,colId,sort,content:info.content
+      })
+      projectRequest
+        .addCard(this.id,{ rowId, colId, sort, info })
+        .then(() => this.loadDetail());
     },
     updateItems({ rowId, colId, items }) {
       this.cards = this.cards
@@ -112,12 +124,13 @@ export default {
     loadDetail() {
       return projectRequest
         .getBoradDetail(this.id)
-        .then(({ title, cols, rows, cards }) => {
+        .then(({ title, cols, rows, cards,templateName }) => {
           this.title = title;
           this.cols = cols;
           this.rows = rows;
           this.cards = cards;
-        });
+          this.templateName =templateName
+        }).then(()=>{});
     },
     addRow() {
       projectRequest.addBoardRow(this.id).then(() => this.loadDetail());
