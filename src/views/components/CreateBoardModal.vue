@@ -10,11 +10,11 @@
       <a-form-model-item label="看板名称" ref="name" prop="name">
         <a-input v-model="form.name" placeholder="请输入看板名称" />
       </a-form-model-item>
-      <a-form-model-item label="所属项目" ref="project" prop="project">
+      <!-- <a-form-model-item label="所属项目" ref="project" prop="project">
         <a-select v-model="form.project">
           <a-select-option value="iData项目管理">iData项目管理</a-select-option>
         </a-select>
-      </a-form-model-item>
+      </a-form-model-item> -->
     </a-form-model>
     <template slot="footer">
       <a-checkbox @change="onChange" style="float: left;">继续创建看板</a-checkbox>
@@ -42,8 +42,10 @@ export default {
     onSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          console.log("新建看板")
-          console.log(this.form)
+          // console.log("新建看板")
+          // console.log(this.form)
+          this.$emit('childByBoard', this.form)
+          this.visibleBoard = false
         } else {
           console.log("error submit!!");
           return false;

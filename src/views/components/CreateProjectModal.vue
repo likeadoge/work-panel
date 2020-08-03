@@ -26,7 +26,7 @@
       </a-form-model-item>
       <a-form-model-item label="所属部门">
         <!-- <a-input v-model="form.orgld" placeholder="达梦数据库" disabled /> -->
-        <a-select v-model="dep" v-for="(v,i) in depart" :key="i" placeholder="请选择所属部门">
+        <a-select v-model="form.orgId" v-for="(v,i) in depart" :key="i" placeholder="请选择所属部门">
           <a-select-option :value="v.departName">{{v.departName}}</a-select-option>
           <!-- <a-select-option value="beijing">Zone two</a-select-option> -->
         </a-select>
@@ -60,12 +60,10 @@ export default {
     labelCol: { span: 4 },
     wrapperCol: { span: 14 },
     depart: [],
-    dep: '',
     form: {
-      id: "123456",
       name: "",
       template: "",
-      orgld: "",
+      orgId: "",
       beginTime: "",
       endTime: "",
       // date1: [],
@@ -83,27 +81,14 @@ export default {
     onSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          console.log("提交");
-          // console.log(this.id)
-          this.form.orgld = this.dep
-          console.log(this.form);
-          const {
-            id,
-            name,
-            template,
-            orgld,
-            beginTime,
-            endTime,
-            describe
-          } = this.form;
-          item
-            .addProject({id, name, template, orgld, beginTime, endTime, describe })
-            .then()
-            .catch((msg) => this.message(msg));
+          // console.log("提交");
+          // console.log(this.form);
+          this.$emit('addProject', this.form)
         } else {
           console.log("error submit!!");
           return false;
         }
+        this.visibleProject = false
       });
     },
     onChange(date, dateString) {
@@ -118,7 +103,7 @@ export default {
   },
   mounted() {
     item.getDepart().then(res => {
-      console.log(res);
+      // console.log(res);
       this.depart = res;
     });
   }
