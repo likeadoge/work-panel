@@ -4,7 +4,7 @@
       <flex-fixed></flex-fixed>
 
       <h1 style="margin:24px 0 0 24px">
-        {{name}}
+        {{title}}
         <a-button type="primary" @click="addRow" style="margin: 0 12px">add row</a-button>
         <a-button type="primary" @click="addCol">add col</a-button>
       </h1>
@@ -50,9 +50,10 @@
 </template>
 
 <script>
-
-import RowOpreater from "./project/RowOpreater";
-import CellPanel from "./project/CellPanel";
+import RowOpreater from "./board/RowOpreater";
+import CellPanel from "./board/CellPanel";
+import * as projectRequest from "@/request/board";
+import uuid from "@/utils/uuid";
 
 export default {
   components: {
@@ -60,13 +61,14 @@ export default {
     CellPanel,
   },
   data: () => ({
-    name: '',
+    id: uuid(),
+    name: "",
     rows: [],
     cols: [],
-    list: [],
+    cards: [],
   }),
-  mounted(){
-
+  mounted() {
+    this.loadDetail()
   },
 
   computed: {
@@ -77,7 +79,7 @@ export default {
             rowId,
             colId,
             type: "panel",
-            items: this.list.filter(
+            items: this.cards.filter(
               (v) => v.rowId === rowId && v.colId === colId
             ),
           }))
@@ -94,7 +96,7 @@ export default {
   methods: {
     addItem({ rowId, colId, sort, info = {} }) {
       // console.info("add item", { rowId, colId });
-      this.list.push({
+      this.cards.push({
         rowId,
         colId,
         sort,
@@ -102,14 +104,24 @@ export default {
       });
     },
     updateItems({ rowId, colId, items }) {
-      this.list = this.list
+      this.cards = this.cards
         .filter((v) => v.rowId !== rowId || v.colId !== colId)
         .concat(
           items.map((v, sort) => Object.assign({}, v, { colId, rowId, sort }))
         );
     },
+    loadDetail() {
+      return projectRequest
+        .getBoradDetail(this.id)
+        .then(({ title, cols, rows, cards }) => {
+          this.title = title;
+          this.cols = cols;
+          this.rows = rows;
+          this.cards = cards;
+        });
+    },
     addRow() {
-      this.rows.push({ rowId: uuid() });
+      projectRequest.addBoardRow(this.id).then(() => this.loadDetail());
     },
     addCol() {
       this.cols.push({ colId: uuid() });
@@ -148,7 +160,7 @@ export default {
     },
     rowDelete(rowId) {
       this.rows = this.rows.filter((v) => v.rowId !== rowId);
-      this.list = this.list.filter((v) => v.rowId !== rowId);
+      this.cards = this.cards.filter((v) => v.rowId !== rowId);
     },
     rowCopy(rowId) {
       const newId = uuid();
@@ -158,8 +170,8 @@ export default {
         this.rows = this.rows.flatMap((v) =>
           v.rowId === rowId ? [v, newItem] : [v]
         );
-        this.list = this.list.concat(
-          this.list
+        this.cards = this.cards.concat(
+          this.cards
             .filter((v) => v.rowId == rowId)
             .map((v) =>
               Object.assign({}, v, {
@@ -174,17 +186,16 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
-.page-outer{
-    height: 100%;
-    width: 100%;
-    padding : 32px 48px 0 48px;
+.page-outer {
+  height: 100%;
+  width: 100%;
+  padding: 32px 48px 0 48px;
 }
 
-.page-inner{
-    height: 100%;
-    width: 100%;
-    background: #fff;
-    overflow: auto;
+.page-inner {
+  height: 100%;
+  width: 100%;
+  background: #fff;
+  overflow: auto;
 }
 </style>

@@ -13,7 +13,7 @@
           <router-link to="/">Home</router-link>
         </a-menu-item>
         <a-menu-item key="2">
-          <router-link to="/project">Project</router-link>
+          <router-link to="/board">Board</router-link>
         </a-menu-item>
         <a-menu-item key="3">
           <router-link to="/login">Login</router-link>
