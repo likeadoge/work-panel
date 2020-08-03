@@ -39,6 +39,12 @@ const routes = [{
         // which is lazy-loaded when the route is visited.
         component: () =>
             import ( /* webpackChunkName: "about" */ '../views/Template.vue')
+    },
+    {
+        path: '/library',
+        name: '归档库',
+        component: () =>
+            import ( /* webpackChunkName: "about" */ '../views/Library.vue')
     }
 ]
 
