@@ -30,7 +30,8 @@
             <router-link to="/template"><icon-font type="icon-template" class="sidebarfont"/>模板库</router-link>
           </a-menu-item>
           <a-menu-item key="sub3">
-            <icon-font type="icon-library" class="sidebarfont"/>归档库
+            <!-- <icon-font type="icon-library" class="sidebarfont"/>归档库 -->
+            <router-link to="/library"><icon-font type="icon-library" class="sidebarfont"/>归档库</router-link>
           </a-menu-item>
           <!-- <a-sub-menu key="sub3">
             <span slot="title">
