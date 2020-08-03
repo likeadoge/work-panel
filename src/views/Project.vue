@@ -50,8 +50,6 @@
 </template>
 
 <script>
-import ph from "@/utils/placeholder";
-import uuid from "@/utils/uuid";
 
 import RowOpreater from "./project/RowOpreater";
 import CellPanel from "./project/CellPanel";
@@ -62,11 +60,15 @@ export default {
     CellPanel,
   },
   data: () => ({
-    name: ph(),
-    rows: new Array(5).fill(0).map(() => ({ rowId: uuid() })),
-    cols: new Array(4).fill(0).map(() => ({ colId: uuid() })),
+    name: '',
+    rows: [],
+    cols: [],
     list: [],
   }),
+  mounted(){
+
+  },
+
   computed: {
     cells() {
       return this.rows.flatMap(({ rowId }) =>
