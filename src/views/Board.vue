@@ -62,15 +62,14 @@ export default {
   },
   data: () => ({
     id: uuid(),
-    name: "",
+    title: "",
     rows: [],
     cols: [],
     cards: [],
   }),
   mounted() {
-    this.loadDetail()
+    this.loadDetail();
   },
-
   computed: {
     cells() {
       return this.rows.flatMap(({ rowId }) =>
@@ -127,7 +126,7 @@ export default {
       this.cols.push({ colId: uuid() });
     },
     rowUp(rowId) {
-      this.rows = this.rows.flatMap((v, i, arr) => {
+      const rows = this.rows.flatMap((v, i, arr) => {
         if (v.rowId === rowId && arr[i - 1]) {
           return [v, arr[i - 1]];
         } else if (arr[i + 1] && arr[i + 1].rowId === rowId) {
@@ -136,9 +135,11 @@ export default {
           return [v];
         }
       });
+
+      projectRequest.sortBoardRows(rows).then(() => this.loadDetail());
     },
     rowDown(rowId) {
-      this.rows = this.rows.flatMap((v, i, arr) => {
+      const rows = this.rows.flatMap((v, i, arr) => {
         if (v.rowId === rowId && arr[i + 1]) {
           return [arr[i + 1], v];
         } else if (arr[i - 1] && arr[i - 1].rowId === rowId) {
@@ -147,39 +148,45 @@ export default {
           return [v];
         }
       });
+      projectRequest.sortBoardRows(rows).then(() => this.loadDetail());
     },
     rowTop(rowId) {
-      this.rows = this.rows
+      const rows = this.rows
         .filter((v) => v.rowId === rowId)
         .concat(this.rows.filter((v) => v.rowId !== rowId));
+
+      projectRequest.sortBoardRows(rows).then(() => this.loadDetail());
     },
     rowBottom(rowId) {
-      this.rows = this.rows
+      const rows = this.rows
         .filter((v) => v.rowId !== rowId)
         .concat(this.rows.filter((v) => v.rowId === rowId));
+
+      projectRequest.sortBoardRows(rows).then(() => this.loadDetail());
     },
     rowDelete(rowId) {
-      this.rows = this.rows.filter((v) => v.rowId !== rowId);
-      this.cards = this.cards.filter((v) => v.rowId !== rowId);
+      projectRequest.deleteBoardRow(rowId).then(() => this.loadDetail());
     },
-    rowCopy(rowId) {
-      const newId = uuid();
-      const item = this.rows.find((v) => v.rowId === rowId);
-      if (item) {
-        const newItem = Object.assign({}, item, { rowId: newId });
-        this.rows = this.rows.flatMap((v) =>
-          v.rowId === rowId ? [v, newItem] : [v]
-        );
-        this.cards = this.cards.concat(
-          this.cards
-            .filter((v) => v.rowId == rowId)
-            .map((v) =>
-              Object.assign({}, v, {
-                rowId: newId,
-              })
-            )
-        );
-      }
+    rowCopy() {
+      this.loadDetail();
+      // rowId
+      // const newId = uuid();
+      // const item = this.rows.find((v) => v.rowId === rowId);
+      // if (item) {
+      //   const newItem = Object.assign({}, item, { rowId: newId });
+      //   this.rows = this.rows.flatMap((v) =>
+      //     v.rowId === rowId ? [v, newItem] : [v]
+      //   );
+      //   this.cards = this.cards.concat(
+      //     this.cards
+      //       .filter((v) => v.rowId == rowId)
+      //       .map((v) =>
+      //         Object.assign({}, v, {
+      //           rowId: newId,
+      //         })
+      //       )
+      //   );
+      // }
     },
   },
 };
@@ -189,7 +196,7 @@ export default {
 .page-outer {
   height: 100%;
   width: 100%;
-  padding: 32px 48px 0 48px;
+  padding: 32px 48px 32px 48px;
 }
 
 .page-inner {

@@ -2,24 +2,42 @@ import ph from "@/utils/placeholder";
 import uuid from "@/utils/uuid";
 
 
-const newRow = () => ({ rowId: uuid() })
+const newRow = () => ({ rowId: uuid(), sort: rows.length })
 const newCol = () => ({ colId: uuid() })
 
-const rows = new Array(5).fill(0).map(() => newRow())
-const cols = new Array(4).fill(0).map(() => newCol())
-const cards = []
-const title = ph()
+let rows = []
+let cols = []
+let cards = []
+let title = ph()
 
+rows.push(newRow()); rows.push(newRow()); rows.push(newRow()); rows.push(newRow());
+cols.push(newCol()); cols.push(newCol()); cols.push(newCol()); cols.push(newCol());
 
 export const getBoradDetail = (id) => {
     console.log(id)
+    console.log({
+        title, cols, rows: rows.sort((a, b) => a.sort - b.sort), cards
+    })
     return Promise.resolve({
-        title, cols, rows, cards
+        title, cols, rows: rows.sort((a, b) => a.sort - b.sort), cards
     })
 }
 
 export const addBoardRow = (id) => {
     console.log(id)
     rows.push(newRow())
+    return Promise.resolve({})
+}
+
+export const sortBoardRows = (_rows) => {
+    rows = _rows.map((v, i) => Object.assign({}, v, { sort: i }))
+    return Promise.resolve({})
+}
+
+
+export const deleteBoardRow = (rowid) => {
+    rows = rows.filter(v=>v.rowId!==rowid).sort((a, b) => a.sort - b.sort).map((v,i)=>Object.assign({},v,{
+        sort:i
+    }))
     return Promise.resolve({})
 }
