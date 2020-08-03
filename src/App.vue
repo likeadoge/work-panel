@@ -15,15 +15,15 @@
         <a-menu-item key="2">
           <router-link to="/board">Board</router-link>
         </a-menu-item>
-        <a-menu-item key="3">
+        <!-- <a-menu-item key="3">
           <router-link to="/login">Login</router-link>
-        </a-menu-item>
-        <a-menu-item key="4">
+        </a-menu-item> -->
+        <!-- <a-menu-item key="4">
           <router-link to="/template">模板库</router-link>
         </a-menu-item>
         <a-menu-item key="5">
           <router-link to="/library">归档库</router-link>
-        </a-menu-item>
+        </a-menu-item> -->
         <!-- <a-menu-item key="3">nav 3</a-menu-item> -->
       </a-menu>
 
