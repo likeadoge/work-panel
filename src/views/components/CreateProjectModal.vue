@@ -87,7 +87,6 @@ export default {
           // console.log(this.id)
           this.form.orgld = this.dep
           console.log(this.form);
-          debugger;
           const {
             id,
             name,

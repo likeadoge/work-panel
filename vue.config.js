@@ -1,7 +1,8 @@
 module.exports = {
     outputDir: 'build',
-    publicPath: process.env.NODE_ENV === 'production' ?
-        '/work-panel/' : '/',
+    // publicPath: process.env.NODE_ENV === 'production' ?
+    //     '/work-panel/' : '/',
+    publicPath: '/',
     runtimeCompiler: true,
     devServer: {
         port: 8080,
