@@ -53,7 +53,6 @@
               @rowCopy="({rowId})=>rowCopy(rowId)"
             />
           </template>
-
           <a-button @click="()=>addRow()">添加泳道</a-button>
         </div>
       </flex-fill>
@@ -73,7 +72,7 @@ export default {
     CellPanel,
   },
   data: () => ({
-    id: "2020080314254735u0bao9e85xmlmyzo",
+    id: "20200804161224auco12grc0p1j59mz0",
     templateName: "",
     title: "",
     rows: [],
@@ -111,6 +110,8 @@ export default {
       return e?e.version : ''
     },
     addItem({ rowId, colId, sort, info = {} }) {
+      console.log(info)
+      window.a = info
       this.cards.push({
         rowId,
         colId,
