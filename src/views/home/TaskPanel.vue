@@ -146,6 +146,7 @@ export default {
         // console.log(res.success)
         // if(res.success){
           this.$message.success("项目已归档，请在归档库进行查看！")
+          this.$emit('loadProject')
           this.loadBoard()
         // }        
       }).catch(err => this.$message.info(err))   

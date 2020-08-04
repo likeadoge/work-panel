@@ -1,13 +1,6 @@
 <template>
   <a-modal :visible="visibleDel" title="提示" @cancel="()=> (this.visibleDel = false)" @ok="onSubmit" cancelText="取消" okText="确定">
-    <a-form-model
-      :model="form"
-      :rules="rules"
-      ref="form"
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      
-    >
+    <a-form-model>
     <p>确定将项目删除么？项目删除后不可恢复</p>
     </a-form-model>
   </a-modal>

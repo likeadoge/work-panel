@@ -47,7 +47,7 @@
             <template v-for="(v,i) in projectList">
               <a-menu-item :key="i">{{v.name}}</a-menu-item>
             </template>
-            <a-menu-item key="0">
+            <a-menu-item key="name">
               <a-button type="link" style="padding: 0px;" @click="showProject">
                 <a-icon style="margin-right: 0px;" type="plus" />新建项目
               </a-button>
@@ -79,8 +79,8 @@
           @loadProject="loadProject"
           @sort="boards=>sortBoards(v.id, boards)"
         />
-        <project-template v-show="menuChange == 'sub2'" :data="data"/>
-        <library v-show="menuChange == 'sub3'" :datalib="datalib"/>
+        <project-template v-show="menuChange == 'sub2'" :data="data" @loadTemplate="loadTemplate"/>
+        <library v-show="menuChange == 'sub3'" :datalib="datalib" @loadLibrary="loadLibrary"/>
         <!-- :boards="v.template" -->
         <!-- <task-panel
           v-for="(v) in list"
@@ -93,7 +93,7 @@
        <create-project-modal ref="project" @addProject="addProject" />
       
         
-        <route-view></route-view>
+        <!-- <route-view></route-view> -->
       </a-layout-content>
     </a-layout>
   </div>

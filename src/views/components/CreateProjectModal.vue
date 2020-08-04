@@ -82,7 +82,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           // console.log("提交");
-          console.log(this.form);
+          // console.log(this.form);
           this.$emit('addProject', this.form)
           this.visibleProject = false
           this.$refs.form.resetFields();

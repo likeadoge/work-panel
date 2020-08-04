@@ -1,10 +1,10 @@
 <template>
-  <a-card :bordered="false" bodyStyle="padding: 0px 8px; background-color: #fcfcfd;">
+  <a-card :bordered="false" :bodyStyle="{padding: '0px 8px', backgroundColor: '#fcfcfd'}">
     <a-table :columns="columns" :data-source="datalib" bordered :pagination="false">
-      <template slot="operation">
-        <a @click="re"><icon-font type="icon-restore" style="margin-right: 6px;"/>还原</a>        
+      <template slot="operation" slot-scope="text, records">
+        <a ><icon-font type="icon-restore" style="margin-right: 6px;"/>还原</a>        
         <a-divider type="vertical"/>
-        <a @click="del"><icon-font type="icon-delete" style="margin-right: 6px;"/>删除</a>
+        <a @click="delProject(records.id)"><icon-font type="icon-delete" style="margin-right: 6px;"/>删除</a>
       </template>
     </a-table>    
   </a-card>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-// import * as item from "../request/item"
+import * as item from "../request/item"
 const columns = [
   {
     title: '项目名称',
@@ -47,6 +47,17 @@ export default {
      columns,
     //  data: [],
     //  status: 2
+   }
+ },
+ methods: {
+   delProject(id) {
+    //  console.log(id)
+     item.Deleteproject(id).then(()=> {
+       this.$message.success("项目成功删除！")
+       this.$emit('loadLibrary')
+     }).catch(()=> {
+       this.$message.warning(err)
+     })
    }
  },
 }

@@ -14,7 +14,7 @@
     </a-form-model>
     <template slot="footer">
       <a-button @click="()=> (this.visibleTemplate = false)">取消</a-button>
-      <a-button type="primary" :loading="loading" @click="onSubmit">确定</a-button>
+      <a-button type="primary" @click="onSubmit">确定</a-button>
     </template>
   </a-modal>
 </template>

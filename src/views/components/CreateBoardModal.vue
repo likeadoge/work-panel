@@ -19,7 +19,7 @@
     <template slot="footer">
       <a-checkbox @change="onChange" style="float: left;">继续创建看板</a-checkbox>
       <a-button @click="()=> (this.visibleBoard = false)">取消</a-button>
-      <a-button type="primary" :loading="loading" @click="onSubmit">确定</a-button>
+      <a-button type="primary" @click="onSubmit">确定</a-button>
     </template>
   </a-modal>
 </template>
