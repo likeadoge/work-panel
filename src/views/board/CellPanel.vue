@@ -9,7 +9,24 @@
           :group="{name:'card'}"
           style="padding-bottom:16px;height:100%"
         >
-          <div class="panel card" v-for="v in list" :key="v.cardId">{{v.content}}</div>
+          <div class="panel card" v-for="v in list" :key="v.cardId">
+            {{v.content}}
+            <div style="overflow:hidden;margin:6px 0 -6px 0">
+              <div v-if="v.hour" class="hour-tag">{{v.hour}}</div>
+              <div v-if="v.time" class="date-tag">
+                {{
+                v.time.format('MM,月,DD,日').split(',').map(v=>Number(v)?Number(v):v).join('')
+                }}截止
+              </div>
+
+              <a-avatar
+                v-for="(v) in v.executors"
+                :key="'e-'+v.uid"
+                size="middle"
+                class="avatar-tag"
+              >{{v.realname[0]}}{{v.realname[1]?v.realname[1]:""}}</a-avatar>
+            </div>
+          </div>
         </draggable>
       </flex-fill>
 
@@ -22,7 +39,10 @@
         <div v-if="isAddingCard" style class="input panel card">
           <a-textarea placeholder="Basic usage" v-model="addCardInfo.content" :rows="4" />
 
-          <div style="margin-top:12px">
+          <div
+            style="margin-top:12px"
+            v-if="addCardInfo.user.length>0 || addCardInfo.hour||addCardInfo.time"
+          >
             <a-avatar
               v-for="(v) in addCardInfo.user"
               :key="v.uid"
@@ -33,7 +53,7 @@
                 marginRight:'6px',
               }"
             >{{v.realname[0]}}</a-avatar>
-            
+
             <a-avatar
               v-if="addCardInfo.hour"
               size="small"
@@ -44,9 +64,11 @@
               }"
             >{{addCardInfo.hour}}</a-avatar>
 
-            <div v-if="addCardInfo.time" class="date-tag_add">{{
-              addCardInfo.time.format('MM,月,DD,日').split(',').map(v=>Number(v)?Number(v):v).join('')    
-            }}</div>
+            <div v-if="addCardInfo.time" class="date-tag_add">
+              {{
+              addCardInfo.time.format('MM,月,DD,日').split(',').map(v=>Number(v)?Number(v):v).join('')
+              }}
+            </div>
           </div>
           <div class="detail-btn-cntr">
             <!-- 执行人按钮 -->
@@ -138,31 +160,26 @@
 <script>
 import draggable from "vuedraggable";
 import ph from "@/utils/placeholder";
-import uuid from "@/utils/uuid";
 
 export default {
   components: { draggable },
-  props: ["rowId", "colId", "items"],
+  props: ["rowId", "colId", "items", "userList"],
   data: () => ({
     isAddingCard: false,
     userVisible: false,
     hourVisible: false,
 
     userSearch: "",
-    userList: [
-      { realname: "胡彦", uid: uuid() },
-      { realname: "焦珍瑞", uid: uuid() },
-      { realname: "蒙云岚", uid: uuid() },
-      { realname: "毓姝美", uid: uuid() },
-      { realname: "兆恨蝶", uid: uuid() },
-    ],
     addCardInfo: {
       content: ph(),
-      time: "",
+      time: null,
       hour: 0,
       user: [],
     },
   }),
+  mounted() {
+    console.log(this.list);
+  },
   computed: {
     list: {
       get() {
@@ -290,5 +307,37 @@ export default {
   line-height: 24px;
   padding: 0 8px;
   border-radius: 12px;
+}
+
+.date-tag {
+  float: right;
+  font-size: 12px;
+  line-height: 24px;
+  padding: 0 8px;
+  border-radius: 12px;
+  margin: 6px 6px 6px 0;
+  color: red;
+  background: rgb(254, 233, 233);
+}
+
+.hour-tag {
+  float: right;
+  font-size: 12px;
+  line-height: 24px;
+  padding: 0 8px;
+  border-radius: 12px;
+  margin: 6px 6px 6px 0;
+  color: #fff;
+  padding: 0 4px;
+  text-align: center;
+  min-width: 32px;
+  background: rgb(80, 199, 238);
+}
+
+.avatar-tag {
+  background-color: rgb(19, 194, 194);
+  vertical-align: -7px;
+  float: left;
+  margin: 2px 6px 2px 0;
 }
 </style>

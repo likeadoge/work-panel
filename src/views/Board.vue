@@ -37,6 +37,7 @@
               :rowId="v.rowId"
               :colId="v.colId"
               :items="v.items"
+              :userList="allUserList"
               @add="({rowId,colId,sort,info})=>addItem({rowId,colId,sort,info})"
               @update="({rowId,colId,items})=>updateItems({rowId,colId,items})"
             />
@@ -64,6 +65,7 @@
 import RowOpreater from "./board/RowOpreater";
 import CellPanel from "./board/CellPanel";
 import * as projectRequest from "@/request/board";
+import * as userRequest from "@/request/user";
 import uuid from "@/utils/uuid";
 
 export default {
@@ -72,15 +74,21 @@ export default {
     CellPanel,
   },
   data: () => ({
-    id: "20200804161224auco12grc0p1j59mz0",
+    id: "202008041517043m87alx03xr3kqe5c5",
     templateName: "",
     title: "",
     rows: [],
     cols: [],
     cards: [],
+
+    allUserList:[]
   }),
   mounted() {
     this.loadDetail();
+    userRequest.getUserList().then(arr=>{
+      this.allUserList = arr
+      console.log(this.allUserList)  
+    })
   },
   computed: {
     cells() {
@@ -112,14 +120,19 @@ export default {
     addItem({ rowId, colId, sort, info = {} }) {
       console.log(info)
       window.a = info
-      this.cards.push({
+      
+      const ncard = {
         rowId,
         colId,
         sort,
         content: info.content,
-      });
+        hour:info.hour||0,
+        executors:info.user || [],
+        time:info.time || null
+      }
+      this.cards.push(ncard);
       projectRequest
-        .addCard(this.id, { rowId, colId, sort, info })
+        .addCard(this.id, ncard)
         .then(() => this.loadDetail());
     },
     updateItemsList(cells) {

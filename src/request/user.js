@@ -12,7 +12,7 @@ export const register = ({ username, password }) => post('/sys/user/register', {
 export const getUserInfo = () => get.withoutError('/sys/userInfo', {})
 
 export const getUserList = ()=> get('/sys/userList').then(userList=> userList.map(({id,avatar,realname})=>({
-    pid:id,
+    uid:id,
     avatar,
-    name:realname,
+    realname,
 })))
