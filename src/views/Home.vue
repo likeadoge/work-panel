@@ -1,6 +1,6 @@
 <template>
   <div style="height:100%;padding: 32px 48px;">
-    <a-layout style="height:100%;padding: 24px 0; background-color: #fcfcfd;">
+    <a-layout style="height:100%;padding: 32px 0px 0px 0px; background-color: #fcfcfd;">
       <a-layout-sider width="216px" class="bg" style="overflow:auto;">
         <!-- <a-menu
           mode="inline"
