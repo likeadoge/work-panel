@@ -1,10 +1,10 @@
 <template>
   <a-card :bordered="false" bodyStyle="padding: 0px 8px; background-color: #fcfcfd;">
-    <a-table :columns="columns" :data-source="data" bordered :pagination="false">
+    <a-table :columns="columns" :data-source="datalib" bordered :pagination="false">
       <template slot="operation">
-        <a><icon-font type="icon-restore" style="margin-right: 6px;"/>还原</a>        
+        <a @click="re"><icon-font type="icon-restore" style="margin-right: 6px;"/>还原</a>        
         <a-divider type="vertical"/>
-        <a><icon-font type="icon-delete" style="margin-right: 6px;"/>删除</a>
+        <a @click="del"><icon-font type="icon-delete" style="margin-right: 6px;"/>删除</a>
       </template>
     </a-table>    
   </a-card>
@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import * as item from "../request/item"
+// import * as item from "../request/item"
 const columns = [
   {
-    title: '项目模板',
+    title: '项目名称',
     dataIndex: 'name',
     // width: '25%',
     scopedSlots: { customRender: 'name' },
@@ -23,14 +23,14 @@ const columns = [
   {
     title: '描述',
     dataIndex: 'describe',
-    // width: '15%',
+    width: '40%',
     scopedSlots: { customRender: 'describe' },
   },
   {
     title: '归档时间',
-    dataIndex: 'createTime',
+    dataIndex: 'updateTime',
     width: '316px',
-    scopedSlots: { customRender: 'createTime' },
+    scopedSlots: { customRender: 'updateTime' },
   },
   {
     title: '操作',
@@ -41,22 +41,13 @@ const columns = [
 ];
 
 export default {
+  props: ["datalib"],
  data() {
    return {
      columns,
-     data: [],
-     status: 2
+    //  data: [],
+    //  status: 2
    }
- },
- methods: {
-   loadLibrary() {
-     item.getProject(this.status).then((res) => {
-       this.data = res
-     })
-   }
- },
- mounted () {
-   this.loadLibrary();
  },
 }
 

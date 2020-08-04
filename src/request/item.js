@@ -5,14 +5,14 @@ import { post, get } from '@/request/http'
 
 export const addProject = ({
     name,
-    template,
+    templateId,
     orgId,
     beginTime,
     endTime,
     describe
 }) => post('/task/project/add', {
     name,
-    template,
+    templateId,
     orgId,
     beginTime,
     endTime,
@@ -24,9 +24,9 @@ export const getProject = (status) => get('/task/project/get', { status: status 
 })
 
 export const getDepart = () => get('/sys/sysDepart/queryList', {}).then((res) => {
-    return res
-})
-
+        return res
+    })
+    // 获取模板列表
 export const getTemplate = () => get('/task/project/getTemplate', {}).then((res) => {
     return res
 }).catch((err) => {
@@ -41,27 +41,33 @@ export const getBoard = (id) => get('/task/panel/get', { projectId: id }).then((
 export const createBoard = ({ name, projectId }) => post('/task/panel/create', { name, projectId: projectId })
 
 
-// 编辑 删除 重命名
-
+// 项目归档
 export const Libraryproject = (id) => get('/task/project/archive', { id: id }).then((res) => {
-    return res
-}).catch((err) => {
-    return err
-})
-
+        return res
+    }).catch((err) => {
+        return err
+    })
+    // 项目删除
 export const Deleteproject = (id) => get('/task/project/delete', { id: id }).then((res) => {
-    return res
-}).catch((err) => {
-    return err
-})
-
+        return res
+    }).catch((err) => {
+        return err
+    })
+    // 项目还原
 export const Returnproject = (id) => get('/task/project/reserve', { id: id }).then((res) => {
+        return res
+    }).catch((err) => {
+        return err
+    })
+    // 编辑项目
+export const Editproject = (id) => post('/task/project/edit', { id: id }).then((res) => {
     return res
 }).catch((err) => {
     return err
 })
 
-export const Editproject = (id) => post('/task/project/edit', { id: id }).then((res) => {
+// 项目保存为模板
+export const saveTemplate = ({ projectId, templateName }) => post('/task/template/saveProjectToTemplate', { projectId: projectId, templateName: templateName }).then((res) => {
     return res
 }).catch((err) => {
     return err

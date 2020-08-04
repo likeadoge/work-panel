@@ -46,6 +46,7 @@ export default {
           // console.log(this.form)
           this.$emit('childByBoard', this.form)
           this.visibleBoard = false
+          this.$refs.form.resetFields();
         } else {
           console.log("error submit!!");
           return false;

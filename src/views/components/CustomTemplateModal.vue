@@ -26,8 +26,7 @@ export default {
     labelCol: { span: 4 },
     wrapperCol: { span: 14 },
     form: {
-      name: "",
-      project: ""
+      name: ""
     },
     rules: {
       name: [{ required: true, message: "请输入项目模板名称", trigger: "change" }]
@@ -36,8 +35,12 @@ export default {
   methods: {
     onSubmit() {
       this.$refs.form.validate(valid => {
-        if (valid) {
-          alert("submit!");
+        if (valid) {          
+          // alert("submit!");
+          console.log(this.form.name)
+          this.$emit('exeTemplate', this.form.name)
+          this.visibleTemplate = false
+          this.$refs.form.resetFields();
         } else {
           console.log("error submit!!");
           return false;

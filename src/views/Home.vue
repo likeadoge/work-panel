@@ -76,10 +76,11 @@
           :title="v.name"
           :sub-title="v.describe"
           v-show="menuChange == 'sub1'"
+          @loadProject="loadProject"
           @sort="boards=>sortBoards(v.id, boards)"
         />
-        <project-template v-show="menuChange == 'sub2'"/>
-        <library v-show="menuChange == 'sub3'"/>
+        <project-template v-show="menuChange == 'sub2'" :data="data"/>
+        <library v-show="menuChange == 'sub3'" :datalib="datalib"/>
         <!-- :boards="v.template" -->
         <!-- <task-panel
           v-for="(v) in list"
@@ -119,11 +120,14 @@ export default {
   data: () => ({
     visibleProject: false,
     status: "1",
+    statusLib: "2",
     menuChange: 'sub1',
     projectList: [],
     current: ['2'],
     defaultSelectedKeys: [],
-    openKeys: []
+    openKeys: [],
+    data: [], //模板库请求数据
+    datalib: [], //归档库请求数据
     // list:[]
     // list: new Array(5).fill(0).map(() => ({
     //   id: uuid(), // 项目 id
@@ -137,16 +141,27 @@ export default {
   methods: {
     loadProject() {
       item.getProject().then(res => {
-        console.log(res);
+        // console.log(res);
         this.projectList = res;
       });
     },
+    loadTemplate(){
+      item.getTemplate().then((res) => {
+      this.data = res
+      // console.log(this.data)
+    });
+    },
+    loadLibrary(){      
+     item.getProject(this.statusLib).then((res) => {
+       this.datalib = res
+     })   
+    },
     addProject(value) {
-      const { name, template, orgId, beginTime, endTime, describe } = value;
+      const { name, templateId, orgId, beginTime, endTime, describe } = value;
       item
         .addProject({
           name,
-          template,
+          templateId,
           orgId,
           beginTime,
           endTime,
@@ -173,17 +188,20 @@ export default {
     //     this.defaultSelectedKeys = [ routes.pop().path ]
     //   },
       handleSelected1(){
-        console.log("点击了项目管理")
+        // console.log("点击了项目管理")
         this.menuChange = 'sub1'
       },
       handleSelected2(){
-        console.log("点击了模板库")
+        // console.log("点击了模板库")
         this.menuChange = 'sub2'
+        this.loadTemplate();
       },
       handleSelected3(){
-        console.log("点击了归档库")
+        // console.log("点击了归档库")
         this.menuChange = 'sub3'
-      }
+        this.loadLibrary()
+      },
+
     // getInfo() {
     //   item.getProject().then((res) => {
     //     console.log(res)
@@ -195,6 +213,8 @@ export default {
 
   mounted() {
     this.loadProject();
+    this.loadTemplate();
+    this.loadLibrary()
   }
 };
 </script>

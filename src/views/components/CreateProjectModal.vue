@@ -19,15 +19,15 @@
       <a-form-model-item label="项目名称" ref="name" prop="name">
         <a-input v-model="form.name" placeholder="请填写项目名称" />
       </a-form-model-item>
-      <a-form-model-item label="项目模板" ref="template" prop="template">
-        <a-select v-model="form.template" placeholder="请选择项目模板">
-          <a-select-option value="空白模板">空白模板</a-select-option>
+      <a-form-model-item label="项目模板">
+        <a-select v-model="form.templateId"  placeholder="请选择项目模板">
+          <a-select-option v-for="(v,i) in templatelist" :key="i" :value="v.id" >{{v.name}}</a-select-option>
         </a-select>
       </a-form-model-item>
       <a-form-model-item label="所属部门">
         <!-- <a-input v-model="form.orgld" placeholder="达梦数据库" disabled /> -->
-        <a-select v-model="form.orgId" v-for="(v,i) in depart" :key="i" placeholder="请选择所属部门">
-          <a-select-option :value="v.departName">{{v.departName}}</a-select-option>
+        <a-select v-model="form.orgId"  placeholder="请选择所属部门" v-for="(v,i) in depart" :key="i">
+          <a-select-option :value="v.id">{{v.departName}}</a-select-option>
           <!-- <a-select-option value="beijing">Zone two</a-select-option> -->
         </a-select>
       </a-form-model-item>
@@ -45,7 +45,7 @@
         />
       </a-form-model-item>
       <a-form-model-item label="项目描述">
-        <a-input v-model="form.descript" type="textarea" />
+        <a-input v-model="form.describe" type="textarea" />
       </a-form-model-item>
     </a-form-model>
   </a-modal>
@@ -60,14 +60,14 @@ export default {
     labelCol: { span: 4 },
     wrapperCol: { span: 14 },
     depart: [],
+    templatelist: [],
     form: {
       name: "",
-      template: "",
+      templateId: "",
       orgId: "",
       beginTime: "",
       endTime: "",
-      // date1: [],
-      descript: ""
+      describe: ""
     },
     rules: {
       name: [{ required: true, message: "请输入项目名称", trigger: "change" }],
@@ -82,15 +82,17 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           // console.log("提交");
-          // console.log(this.form);
+          console.log(this.form);
           this.$emit('addProject', this.form)
+          this.visibleProject = false
+          this.$refs.form.resetFields();
         } else {
           console.log("error submit!!");
           return false;
         }
         this.visibleProject = false
       });
-    },
+    },  
     onChange(date, dateString) {
       // console.log(date, dateString);
       this.form.beginTime = dateString[0];
@@ -99,6 +101,11 @@ export default {
     },
     onOk(value) {
       console.log("onOk: ", value);
+    },
+    loadCustomTemplate(){
+      item.getTemplate().then((res) => {
+        this.templatelist = res
+      })
     }
   },
   mounted() {
@@ -106,6 +113,7 @@ export default {
       // console.log(res);
       this.depart = res;
     });
+    this.loadCustomTemplate()
   }
 };
 </script>
