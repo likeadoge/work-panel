@@ -11,69 +11,127 @@
         >
           <div class="panel card" v-for="v in list" :key="v.cardId">{{v.content}}</div>
         </draggable>
-
       </flex-fill>
-      
-        <flex-fixed>
-          <div style class="add-btn" v-if="!isAddingCard">
-            <a-button type="link" icon="plus" @click="changeStatus('add')">添加新的卡片</a-button>
-            <!-- <a-button type="link" icon="plus" @click="log">console.log</a-button> -->
-          </div>
 
-          <div v-if="isAddingCard" style="" class="input panel card">
-            <a-textarea placeholder="Basic usage" v-model="addCardInfo.content" :rows="4" />
-            <div class="detail-btn-cntr">
-              <a-popover v-model="userVisible" trigger="click">
+      <flex-fixed>
+        <div style class="add-btn" v-if="!isAddingCard">
+          <a-button type="link" icon="plus" @click="changeStatus('add')">添加新的卡片</a-button>
+          <!-- <a-button type="link" icon="plus" @click="log">console.log</a-button> -->
+        </div>
+
+        <div v-if="isAddingCard" style class="input panel card">
+          <a-textarea placeholder="Basic usage" v-model="addCardInfo.content" :rows="4" />
+
+          <div style="margin-top:12px">
+            <a-avatar
+              v-for="(v) in addCardInfo.user"
+              :key="v.uid"
+              size="small"
+              :style="{ 
+                backgroundColor: 'rgb(19,194,194)', 
+                verticalAlign: '-7px', 
+                marginRight:'6px',
+              }"
+            >{{v.realname[0]}}</a-avatar>
+            
+            <a-avatar
+              v-if="addCardInfo.hour"
+              size="small"
+              :style="{ 
+                backgroundColor: 'rgb(56,194,238)', 
+                verticalAlign: '-7px', 
+                marginRight:'6px',
+              }"
+            >{{addCardInfo.hour}}</a-avatar>
+
+            <div v-if="addCardInfo.time" class="date-tag_add">{{
+              addCardInfo.time.format('MM,月,DD,日').split(',').map(v=>Number(v)?Number(v):v).join('')    
+            }}</div>
+          </div>
+          <div class="detail-btn-cntr">
+            <!-- 执行人按钮 -->
+
+            <a-popover v-model="userVisible" trigger="click">
+              <template slot="content">
+                <a-input
+                  placeholder="搜索"
+                  v-model="userSearch"
+                  style="display:inline-block;width:168px;margin:0 0 12px 0 "
+                />
                 <a-menu
-                  @select="userSelect"
                   :v-model="userKeys"
-                  slot="content"
-                  style="margin: -12px -16px;width:120px"
+                  style="margin: 0 -16px;width:200px;height:120px;overflow:auto"
                 >
-                  <a-menu-item v-for="(v) in userList" :key="v.uid">{{v.name}}</a-menu-item>
+                  <a-menu-item v-for="(v) in userSelectList" @click="userSelect(v)" :key="v.uid">
+                    <a-avatar
+                      size="small"
+                      style="position:relative"
+                      :style="{ 
+                    backgroundColor: 'rgb(19,194,194)', 
+                    verticalAlign: '-7px', 
+                    marginRight:'4px',
+                  }"
+                    >{{v.realname[0]}}</a-avatar>
+                    {{v.realname}}
+                    <icon-font
+                      type="check"
+                      v-show="v.selected"
+                      style="float:right;margin: 12px 10px;"
+                    />
+                  </a-menu-item>
                 </a-menu>
-                <a-button
-                  size="small"
-                  :ghost="true"
-                  type="primary"
-                  shape="circle"
-                  icon="user"
-                  class="detail-btn"
-                />
-              </a-popover>
+              </template>
 
-              <a-range-picker v-model="addCardInfo.time">
-                <a-button
-                  size="small"
-                  :ghost="true"
-                  type="primary"
-                  shape="circle"
-                  icon="history"
-                  class="detail-btn"
-                />
-              </a-range-picker>
-              <a-popover v-model="hourVisible" trigger="click">
-                <a-form-model slot="content" :model="addCardInfo" style="width:120px">
-                  <a-form-model-item label="工时" :label-col="{span :8}" :wrapper-col="{span :16}">
-                    <a-input v-model="addCardInfo.hour" />
-                  </a-form-model-item>
-                </a-form-model>
-                <a-button
-                  size="small"
-                  :ghost="true"
-                  type="primary"
-                  shape="circle"
-                  icon="schedule"
-                  class="detail-btn last"
-                />
-              </a-popover>
-            </div>
-            <div class="btn-cntr">
-              <a-button type="primary" @click="add" style="margin-right:8px;">确定</a-button>
-              <a-button type="link" @click="changeStatus('def')">取消</a-button>
-            </div>
+              <a-button
+                size="small"
+                :ghost="true"
+                type="primary"
+                shape="circle"
+                icon="user"
+                class="detail-btn"
+              />
+            </a-popover>
+
+            <!-- 截至时间按钮 -->
+            <a-date-picker
+              v-model="addCardInfo.time"
+              show-time
+              :style="{minWidth:0}"
+              placeholder="截至日期"
+            >
+              <a-button
+                size="small"
+                :ghost="true"
+                type="primary"
+                shape="circle"
+                icon="history"
+                class="detail-btn"
+              />
+            </a-date-picker>
+
+            <!-- 工时按钮 -->
+            <a-popover v-model="hourVisible" trigger="click">
+              <a-form-model slot="content" :model="addCardInfo" style="width:120px">
+                <a-form-model-item label="工时" :label-col="{span :8}" :wrapper-col="{span :16}">
+                  <a-input v-model="addCardInfo.hour" />
+                </a-form-model-item>
+              </a-form-model>
+              <a-button
+                size="small"
+                :ghost="true"
+                type="primary"
+                shape="circle"
+                icon="schedule"
+                class="detail-btn last"
+              />
+            </a-popover>
           </div>
-        </flex-fixed>
+          <div class="btn-cntr">
+            <a-button type="primary" @click="add" style="margin-right:8px;">确定</a-button>
+            <a-button type="link" @click="changeStatus('def')">取消</a-button>
+          </div>
+        </div>
+      </flex-fixed>
     </flex-col>
   </div>
 </template>
@@ -89,18 +147,20 @@ export default {
     isAddingCard: false,
     userVisible: false,
     hourVisible: false,
+
+    userSearch: "",
     userList: [
-      { name: "胡彦", uid: uuid() },
-      { name: "焦珍瑞", uid: uuid() },
-      { name: "蒙云岚", uid: uuid() },
-      { name: "毓姝美", uid: uuid() },
-      { name: "兆恨蝶", uid: uuid() },
+      { realname: "胡彦", uid: uuid() },
+      { realname: "焦珍瑞", uid: uuid() },
+      { realname: "蒙云岚", uid: uuid() },
+      { realname: "毓姝美", uid: uuid() },
+      { realname: "兆恨蝶", uid: uuid() },
     ],
     addCardInfo: {
       content: ph(),
       time: "",
       hour: 0,
-      user: null,
+      user: [],
     },
   }),
   computed: {
@@ -116,10 +176,22 @@ export default {
         });
       },
     },
-    userKeys: {
-      get() {
-        return [this.addCardInfo.user?.uid].filter((v) => !!v);
-      },
+    userKeys() {
+      return [];
+    },
+    userSelectList() {
+      const keyWord = this.userSearch.toLocaleLowerCase().trim();
+      return this.userList
+        .filter(({ realname }) =>
+          keyWord ? realname.toLocaleLowerCase().indexOf(keyWord) >= 0 : true
+        )
+        .map((v) =>
+          Object.assign({}, v, {
+            selected: this.addCardInfo.user.find((s) => s.uid === v.uid)
+              ? true
+              : false,
+          })
+        );
     },
   },
   methods: {
@@ -133,19 +205,32 @@ export default {
       });
       this.isAddingCard = false;
     },
-    log(){
-      console.log(this.list)
+    log() {
+      console.log(this.list);
     },
-    userSelect({ item }) {
-      this.addCardInfo.user = item;
-      this.userVisible = false;
+    userSelect(v) {
+      const selected = this.addCardInfo.user.find((s) => s.uid === v.uid)
+        ? true
+        : false;
+      if (selected)
+        this.addCardInfo.user = this.addCardInfo.user.filter(
+          (s) => s.uid !== v.uid
+        );
+      else
+        this.addCardInfo.user = this.addCardInfo.user.concat([
+          Object.assign({}, v),
+        ]);
     },
     hourInput() {},
     changeStatus(str) {
       if (str === "add") {
         this.isAddingCard = true;
+        this.userSearch = "";
         this.addCardInfo = {
           content: ph(20, 100),
+          time: "",
+          hour: 0,
+          user: [],
         };
       } else {
         this.isAddingCard = false;
@@ -171,7 +256,7 @@ export default {
 }
 .card.panel.input {
   padding: 12px;
-  overflow:hidden;
+  overflow: hidden;
   margin-top: -16px;
 }
 
@@ -196,5 +281,14 @@ export default {
 .add-btn {
   margin-top: -16px;
   margin-left: -16px;
+}
+
+.date-tag_add {
+  display: inline-block;
+  background: rgb(235, 235, 235);
+  font-size: 12px;
+  line-height: 24px;
+  padding: 0 8px;
+  border-radius: 12px;
 }
 </style>
