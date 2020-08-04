@@ -40,4 +40,29 @@ export const getBoard = (id) => get('/task/panel/get', { projectId: id }).then((
 
 export const createBoard = ({ name, projectId }) => post('/task/panel/create', { name, projectId: projectId })
 
-// export const getUserInfo = () => get.withoutError('/sys/userInfo', {})
+
+// 编辑 删除 重命名
+
+export const Libraryproject = (id) => get('/task/project/archive', { id: id }).then((res) => {
+    return res
+}).catch((err) => {
+    return err
+})
+
+export const Deleteproject = (id) => get('/task/project/delete', { id: id }).then((res) => {
+    return res
+}).catch((err) => {
+    return err
+})
+
+export const Returnproject = (id) => get('/task/project/reserve', { id: id }).then((res) => {
+    return res
+}).catch((err) => {
+    return err
+})
+
+export const Editproject = (id) => post('/task/project/edit', { id: id }).then((res) => {
+    return res
+}).catch((err) => {
+    return err
+})

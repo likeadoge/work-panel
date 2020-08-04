@@ -1,10 +1,10 @@
 <template>
-  <a-card :bordered="false">
+  <a-card :bordered="false" bodyStyle="padding: 0px 8px; background-color: #fcfcfd;">
     <a-table :columns="columns" :data-source="data" bordered :pagination="false">
       <template slot="operation">
-        <icon-font type="icon-restore" style="margin-right: 6px;"/><a>还原</a>        
+        <a><icon-font type="icon-restore" style="margin-right: 6px;"/>还原</a>        
         <a-divider type="vertical"/>
-        <icon-font type="icon-delete" style="margin-right: 6px;"/><a>删除</a>
+        <a><icon-font type="icon-delete" style="margin-right: 6px;"/>删除</a>
       </template>
     </a-table>    
   </a-card>
@@ -27,14 +27,15 @@ const columns = [
     scopedSlots: { customRender: 'describe' },
   },
   {
-    title: '创建时间',
+    title: '归档时间',
     dataIndex: 'createTime',
-    // width: '40%',
+    width: '316px',
     scopedSlots: { customRender: 'createTime' },
   },
   {
     title: '操作',
     dataIndex: 'operation',
+    width: '276px',
     scopedSlots: { customRender: 'operation' },
   },
 ];

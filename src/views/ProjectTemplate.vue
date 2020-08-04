@@ -1,12 +1,15 @@
 <template>
-  <a-card :bordered="false">
-    <a-table :columns="columns" :dataSource="data" bordered :pagination="false">
+  <a-card :bordered="false" bodyStyle="padding: 0px 8px; background-color: #fcfcfd;">
+    <a-table style="background-color: #fcfcfd;" :columns="columns" :dataSource="data" bordered :pagination="false">
+      <span slot="name" slot-scope="text, record" style="font-color: #333333;">{{record.name}}</span>
+      <span slot="describe" slot-scope="text, record" style="font-color: #999999;">{{record.describe}}</span>
+      <span slot="createTime" slot-scope="text, record" style="font-color: #333333;">{{record.createTime}}</span>
       <template slot="operation">
-        <icon-font type="icon-template" style="margin-right: 6px;"/><a>应用模板</a>
+        <a><icon-font type="icon-template" style="margin-right: 6px;"/>应用模板</a>
         <a-divider type="vertical"/>
-        <icon-font type="icon-edit" style="margin-right: 6px;"/><a>重命名</a>
+        <a><icon-font type="icon-edit" style="margin-right: 6px;"/>重命名</a>
         <a-divider type="vertical"/>
-        <icon-font type="icon-delete" style="margin-right: 6px;"/><a>删除</a>
+        <a><icon-font type="icon-delete" style="margin-right: 6px;"/>删除</a>
       </template>
     </a-table>
       <!-- <a-button type="default" @click="showProject">新建项目弹框</a-button>
@@ -34,7 +37,7 @@ const columns = [
   {
     title: '项目模板',
     dataIndex: 'name',
-    // width: '25%',
+    width: '15%',
     scopedSlots: { customRender: 'name' },
   },
   {
@@ -46,12 +49,13 @@ const columns = [
   {
     title: '创建时间',
     dataIndex: 'createTime',
-    // width: '40%',
+    width: '316px',
     scopedSlots: { customRender: 'createTime' },
   },
   {
     title: '操作',
     dataIndex: 'operation',
+    width: '276px',
     scopedSlots: { customRender: 'operation' },
   },
 ];
@@ -99,5 +103,8 @@ export default {
 <style scoped>
 .ant-card-body > button {
   margin-right: 8px;
+}
+.ant-table-content >>> div {
+  background-color: blue;
 }
 </style>
