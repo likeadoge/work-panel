@@ -8,10 +8,15 @@ export const msgError = (msg) => {
     return Promise.reject(msg)
 };
 
+console.log(window.localStorage.getItem("server"))
+
+const customServer = window.localStorage.getItem("server")
+
+
 // 创建 axios 实例
 const service = Promise.resolve(null).then(() => {
     return axios.create({
-        baseURL: 'http://39.101.132.217:9999/task-boot/',
+        baseURL: customServer?customServer:'http://39.101.132.217:9999/task-boot/',
         timeout: -1,
     })
 })
