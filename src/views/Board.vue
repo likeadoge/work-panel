@@ -126,7 +126,6 @@ export default {
         .updateCards(this.id, cells)
         .finally(() => this.loadCells(cells));
     },
-
     loadCells(cells) {
       return projectRequest
         .getCellsCard(
@@ -148,7 +147,7 @@ export default {
         rowId,
         colId,
         version:this.cellVersion({rowId,colId}),
-        items,
+        items:items.map((v,i)=>Object.assign({},v,{sort:i})),
       });
 
       this.$updateTimeout = setTimeout(() => {

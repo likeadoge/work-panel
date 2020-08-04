@@ -9,7 +9,7 @@
           :group="{name:'card'}"
           style="padding-bottom:16px;height:100%"
         >
-          <div class="panel card" v-for="(v,i) in items" :key="i">{{v.content}}</div>
+          <div class="panel card" v-for="v in list" :key="v.cardId">{{v.content}}</div>
         </draggable>
 
       </flex-fill>
@@ -17,6 +17,7 @@
         <flex-fixed>
           <div style class="add-btn" v-if="!isAddingCard">
             <a-button type="link" icon="plus" @click="changeStatus('add')">添加新的卡片</a-button>
+            <!-- <a-button type="link" icon="plus" @click="log">console.log</a-button> -->
           </div>
 
           <div v-if="isAddingCard" style="" class="input panel card">
@@ -131,6 +132,9 @@ export default {
           this.list.length === 0 ? 0 : this.list[this.list.length - 1].sort + 1,
       });
       this.isAddingCard = false;
+    },
+    log(){
+      console.log(this.list)
     },
     userSelect({ item }) {
       this.addCardInfo.user = item;
