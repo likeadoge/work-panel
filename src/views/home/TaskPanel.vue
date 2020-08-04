@@ -1,6 +1,6 @@
 <template>
   <div style="overflow: hidden;">
-    <a-collapse :bordered="false" defaultActiveKey="1" :expand-icon-position="expandIconPosition">
+    <a-collapse :bordered="false" defaultActiveKey="1">
       <a-collapse-panel key="1">
         <template slot="header">
           <icon-font
@@ -12,13 +12,13 @@
         <template slot="extra">
           
           <a-dropdown>
-            <a-menu slot="overlay">
-              <a-menu-item key="1">保存自定义模板</a-menu-item>
-              <a-menu-item key="2">重命名</a-menu-item>
-              <a-menu-item key="3" @click="handleLib">项目归档</a-menu-item>
-              <a-menu-item key="4" @click="handleDel">项目删除</a-menu-item>
+            <a-menu slot="overlay" >
+              <a-menu-item key="1">保存为模板</a-menu-item>
+              <a-menu-item key="2">编辑</a-menu-item>
+              <a-menu-item key="3" @click="handleLib">归档</a-menu-item>
+              <a-menu-item key="4" @click="handleDel">删除</a-menu-item>
             </a-menu>
-            <a-button type="link">
+            <a-button type="link" @click.stop="()=>{}">
               <icon-font style="font-size: 18px; color: #333;" type="icon-more"/>
             </a-button>
           </a-dropdown>
@@ -54,7 +54,8 @@
       </a-collapse-panel>
     </a-collapse>
     <create-board-modal ref="board" @childByBoard="childByBoard" />
-
+    <info-delete ref="infodel" :id="id" @exeDel="exeDel"/>
+    <info-library ref="infolib" :id="id" @exeLib="exeLib" />
     <!-- <div class="task-panel">
       <icon-font type="icon-project" style="font-size: 14px; color: #45e2e2;" />
       <h3>{{title}}</h3>
@@ -79,14 +80,18 @@
 <script>
 import draggable from "vuedraggable";
 import CreateBoardModal from "../components/CreateBoardModal";
+import InfoDelete from "../components/InfoDelete";
+import InfoLibrary from "../components/InfoLibrary"
 import * as item from "../../request/item";
 
 export default {
-  components: { draggable, CreateBoardModal },
+  components: { draggable, CreateBoardModal, InfoDelete, InfoLibrary },
   props: ["id", "title", "subTitle", "boards"],
   data() {
     return {
       visibleBoard: false,
+      visibleDel: false,
+      visibleLib: false,
       boardList: [],
       newBoard: []
     };
@@ -119,10 +124,29 @@ export default {
       event.stopPropagation();
     },
     handleDel(){
-      console.log("项目删除")
+      // console.log("项目删除")
+      this.$refs.infodel.visibleDel = true            
+    },
+    exeDel(id){
+      // console.log(id)
+      item.Deleteproject(id).then((res) => {
+        console.log(res)
+        if(res.success){
+          this.$message.success("项目成功删除！")
+        }        
+      }).catch(err => this.$message.info(err))      
     },
     handleLib(){
       console.log("项目归档")
+      this.$refs.infolib.visibleLib = true
+    },
+    exeLib(id){
+      item.Libraryproject(id).then(() => {
+        // console.log(res.success)
+        // if(res.success){
+          this.$message.success("项目已归档，请在归档库进行查看！")
+        // }        
+      }).catch(err => this.$message.info(err))   
     }
   },
   mounted() {
