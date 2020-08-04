@@ -4,12 +4,13 @@
       <flex-fixed>
         <flex-row style="magin:0;height:67px;line-height:72px;margin-bottom:0">
           <flex-fixed>
-             <a-button type="link" icon="left" :size="'large'" />
-   
+            <a-button type="link" icon="left" :size="'large'" />
           </flex-fixed>
           <flex-fill>
             <b style="font-size: 1.5em;\">{{title}}</b>
-            <span v-if="!!templateName" style="padding-left:12px;vertical-align: 2px;"><a-tag color="rgb(11,196,196)">{{templateName}}</a-tag></span>
+            <span v-if="!!templateName" style="padding-left:12px;vertical-align: 2px;">
+              <a-tag color="rgb(11,196,196)">{{templateName}}</a-tag>
+            </span>
             <span style="padding-left:2px;vertical-align: 2px;">2020-07-24 至 2020-08-04</span>
           </flex-fill>
         </flex-row>
@@ -54,7 +55,6 @@
           </template>
 
           <a-button @click="()=>addRow()">添加泳道</a-button>
-
         </div>
       </flex-fill>
     </flex-col>
@@ -74,7 +74,7 @@ export default {
   },
   data: () => ({
     id: "2020080314254735u0bao9e85xmlmyzo",
-    templateName:'',
+    templateName: "",
     title: "",
     rows: [],
     cols: [],
@@ -106,15 +106,58 @@ export default {
     },
   },
   methods: {
+    cellVersion({rowId,colId}){
+      const e = this.cards.find(v=>v.rowId === rowId && v.colId === colId)
+      return e?e.version : ''
+    },
     addItem({ rowId, colId, sort, info = {} }) {
       this.cards.push({
-        rowId,colId,sort,content:info.content
-      })
+        rowId,
+        colId,
+        sort,
+        content: info.content,
+      });
       projectRequest
-        .addCard(this.id,{ rowId, colId, sort, info })
+        .addCard(this.id, { rowId, colId, sort, info })
         .then(() => this.loadDetail());
     },
+    updateItemsList(cells) {
+      return projectRequest
+        .updateCards(this.id, cells)
+        .finally(() => this.loadCells(cells));
+    },
+
+    loadCells(cells) {
+      return projectRequest
+        .getCellsCard(
+          this.id,
+          cells.map(({ rowId, colId }) => ({ rowId, colId }))
+        )
+        .then((arr) => {
+          arr.forEach(({ rowId, colId, items }) => {
+            this.cards = this.cards
+              .filter((v) => v.rowId !== rowId || v.colId !== colId)
+              .concat(items);
+          });
+        });
+    },
     updateItems({ rowId, colId, items }) {
+      if (!this.$updateCache) this.$updateCache = [];
+      if (this.$updateTimeout) clearTimeout(this.$updateTimeout);
+      this.$updateCache.push({
+        rowId,
+        colId,
+        version:this.cellVersion({rowId,colId}),
+        items,
+      });
+
+      this.$updateTimeout = setTimeout(() => {
+        console.log(this.$updateCache);
+        this.updateItemsList(this.$updateCache);
+        this.$updateCache = [];
+        this.$updateTimeout = null;
+      }, 50);
+
       this.cards = this.cards
         .filter((v) => v.rowId !== rowId || v.colId !== colId)
         .concat(
@@ -124,13 +167,14 @@ export default {
     loadDetail() {
       return projectRequest
         .getBoradDetail(this.id)
-        .then(({ title, cols, rows, cards,templateName }) => {
+        .then(({ title, cols, rows, cards, templateName }) => {
           this.title = title;
           this.cols = cols;
           this.rows = rows;
           this.cards = cards;
-          this.templateName =templateName
-        }).then(()=>{});
+          this.templateName = templateName;
+        })
+        .then(() => {});
     },
     addRow() {
       projectRequest.addBoardRow(this.id).then(() => this.loadDetail());

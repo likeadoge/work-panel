@@ -11,6 +11,24 @@ let cols = []
 // let cards = []
 // let title = ph()
 
+
+const newCard = ({
+    cardId,
+    columnId,
+    laneId,
+    name,
+    // panelId,
+    sort,
+    version,
+}) => ({
+    rowId: laneId,
+    colId: columnId,
+    cardId,
+    sort,
+    version,
+    content: name
+})
+
 rows.push(newRow()); rows.push(newRow()); rows.push(newRow()); rows.push(newRow());
 cols.push(newCol()); cols.push(newCol()); cols.push(newCol()); cols.push(newCol());
 
@@ -29,9 +47,7 @@ export const getBoradDetail = (panelId) => {
         rows: lanes.map(({
             id, sort
         }) => ({ rowId: id, sort })).sort((a, b) => a.sort - b.sort),
-        cards: cardInfos.map(({ columnId, laneId, name, sort }) => ({
-            rowId: laneId, colId: columnId, content: name, sort
-        })),
+        cards: cardInfos.map(v => newCard(v)),
         panel: panel,
         title: panel.name,
         templateName: project.template
@@ -60,14 +76,11 @@ export const sortBoardRows = (rows) => {
     // rows = _rows.map((v, i) => Object.assign({}, v, { sort: i }))
     // return Promise.resolve({})
 
-    return http.post('/task/lane/drag', rows.map((v,sort)=>({
+    return http.post('/task/lane/drag', rows.map((v, sort) => ({
         sort,
-        id:v.rowId
+        id: v.rowId
     })))
 }
-
-
-
 
 export const addCard = (panelId, {
     rowId, colId, info, sort
@@ -88,3 +101,31 @@ export const addCard = (panelId, {
         sort: sort
     })
 }
+
+export const updateCards = (panelId, arr) => {
+    return http.post('/task/card/drag', {
+        panelId,
+        cellList: arr.map(({ colId, rowId, version, items }) => ({
+            columnId: colId,
+            laneId: rowId,
+            version: version,
+            cardList: items.map(({ cardId, sort }) => ({
+                cardId, sort
+            }))
+        })),
+    })
+}
+
+export const getCellsCard = (panelId, arr) => {
+    return http.post('/task/card/getCellsInfo', arr.map(({ colId, rowId }) => ({
+        columnId: colId,
+        laneId: rowId,
+        panelId
+    }))).then(arr => arr.map(({ columnId, laneId, cardInfos }) => ({
+        rowId: laneId,
+        colId: columnId,
+        items: cardInfos.map(v => newCard(v))
+    })))
+}
+
+
