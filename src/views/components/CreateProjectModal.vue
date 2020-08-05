@@ -81,8 +81,6 @@ export default {
     onSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          // console.log("提交");
-          // console.log(this.form);
           this.$emit('addProject', this.form)
           this.visibleProject = false
           this.$refs.form.resetFields();
@@ -103,14 +101,13 @@ export default {
       console.log("onOk: ", value);
     },
     loadCustomTemplate(){
-      item.getTemplate().then((res) => {
+      item.getTemplateList().then((res) => {
         this.templatelist = res
       })
     }
   },
   mounted() {
     item.getDepart().then(res => {
-      // console.log(res);
       this.depart = res;
     });
     this.loadCustomTemplate()

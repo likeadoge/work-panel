@@ -1,5 +1,5 @@
 <template>
-  <a-modal :visible="visibleTemplate" :title="title" @cancel="()=> (this.visibleTemplate = false)" :width="800" centered>
+  <a-modal :visible="visibleTemplate" title="保存为项目模板" @cancel="()=> (this.visibleTemplate = false)" :width="800" centered>
     <a-form-model
       :model="form"
       :rules="rules"
@@ -8,9 +8,7 @@
       :wrapper-col="wrapperCol"
     >
       <a-form-model-item label="项目模板名称" ref="name" prop="name">
-
-        <!-- <a-input v-if="name == null" v-model="form.name" placeholder="请输入项目模板名称"></a-input> -->
-        <a-input v-model="form.name" placeholder="请输入项目模板名称"></a-input>
+        <a-input v-model="form.name" placeholder="请输入项目模板名称" />
       </a-form-model-item>
       
     </a-form-model>
@@ -27,8 +25,6 @@ export default {
     visibleTemplate: false,
     labelCol: { span: 4 },
     wrapperCol: { span: 14 },
-    title: '项目模板',
-    id: '',
     form: {
       name: ""
     },
@@ -37,17 +33,12 @@ export default {
     }
   }),
   methods: {
-    edit(id, name){
-      this.id = id
-      this.form.name = name
-      // console.log("打印另存为")
-      // console.log(id,name)
-    },
     onSubmit() {
       this.$refs.form.validate(valid => {
-        if (valid) { 
-          // console.log(this.id,this.form.name)
-          this.$emit('exeTemplate', {id: this.id, name: this.form.name})
+        if (valid) {          
+          // alert("submit!");
+          console.log(this.form.name)
+          this.$emit('exeTemplate', this.form.name)
           this.visibleTemplate = false
           this.$refs.form.resetFields();
         } else {
@@ -56,7 +47,7 @@ export default {
         }
       });
     }
-  },
+  }
 };
 </script>
 <style scoped>

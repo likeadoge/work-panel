@@ -13,7 +13,7 @@
           
           <a-dropdown>
             <a-menu slot="overlay" >
-              <a-menu-item key="1" @click="saveTemplate">保存为模板</a-menu-item>
+              <a-menu-item key="1" @click="saveTemplate(id, title)">保存为模板</a-menu-item>
               <a-menu-item key="2">编辑</a-menu-item>
               <a-menu-item key="3" @click="handleLib">归档</a-menu-item>
               <a-menu-item key="4" @click="handleDel">删除</a-menu-item>
@@ -151,12 +151,13 @@ export default {
         // }        
       }).catch(err => this.$message.info(err))   
     },
-    saveTemplate() {
+    saveTemplate(id, title) {
+      this.$refs.template.title = "保存为模板"
       this.$refs.template.visibleTemplate = true
+      this.$refs.template.edit(id, title)
     },
-    exeTemplate(value){
-      const {projectId, templateName} ={projectId: this.id, templateName: value}
-      item.saveTemplate({projectId, templateName}).then(()=>{
+    exeTemplate(id, name){
+      item.saveTemplate(id, name).then(()=>{
         this.$message.success("模板保存成功！")
         this.$emit('loadProject')
       }).catch(() => {this.$message.error("error")})

@@ -2,7 +2,7 @@
   <a-card :bordered="false" :bodyStyle="{padding: '0px 8px', backgroundColor: '#fcfcfd'}">
     <a-table :columns="columns" :data-source="datalib" bordered :pagination="false">
       <template slot="operation" slot-scope="text, records">
-        <a ><icon-font type="icon-restore" style="margin-right: 6px;"/>还原</a>        
+        <a @click="retProject(records.id)"><icon-font type="icon-restore" style="margin-right: 6px;"/>还原</a>        
         <a-divider type="vertical"/>
         <a @click="delProject(records.id)"><icon-font type="icon-delete" style="margin-right: 6px;"/>删除</a>
       </template>
@@ -45,16 +45,22 @@ export default {
  data() {
    return {
      columns,
-    //  data: [],
-    //  status: 2
    }
  },
  methods: {
    delProject(id) {
-    //  console.log(id)
      item.Deleteproject(id).then(()=> {
        this.$message.success("项目成功删除！")
        this.$emit('loadLibrary')
+     }).catch(()=> {
+       this.$message.warning(err)
+     })
+   },
+   retProject(id){
+     item.Returnproject(id).then(()=> {
+       this.$message.success("项目已还原！")
+       this.$emit('loadLibrary')
+       this.$emit('loadProject')
      }).catch(()=> {
        this.$message.warning(err)
      })
