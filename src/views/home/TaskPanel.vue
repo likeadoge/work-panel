@@ -25,9 +25,14 @@
             </a-button>
           </a-dropdown>
         </template>
-
+        <!-- <div class="board border-card" v-for="v in boards" :key="v.id" style="padding: 16px 20px; border: #f2f2f2; box-shadow: 0 3px 8px 0 rgba(46,49,72,.1)">{{v.title}}</div>
+          <div class="board-add border-card" style="display: flex; justify-content: center; align-items: center;">
+            <icon-font type="icon-AddItem" style="font-size: 30px;"/><span style="margin-left: 8px; font-size: 20px;" @click="showBoard">添加看板</span>
+          </div>-->
+        
+        
         <draggable
-          v-model="list"
+          v-model="boardList"
           class="board-cntr"
           :filter="'.board-add'"
           :draggable="'.board'"
@@ -35,23 +40,24 @@
           :ghostClass="'board-card-ghost'"
           style="padding-bottom:16px"
           >
-          <!-- <div class="board border-card" v-for="v in boards" :key="v.id" style="padding: 16px 20px; border: #f2f2f2; box-shadow: 0 3px 8px 0 rgba(46,49,72,.1)">{{v.title}}</div>
-          <div class="board-add border-card" style="display: flex; justify-content: center; align-items: center;">
-            <icon-font type="icon-AddItem" style="font-size: 30px;"/><span style="margin-left: 8px; font-size: 20px;" @click="showBoard">添加看板</span>
-          </div>-->
+          
+          <!-- <div style="display: grid; grid-row-gap: 20px; grid-column-gap: 20px; grid-template-columns: repeat(auto-fill, 268px);"> -->
           <div
             class="board border-card"
             v-for="(v,i) in boardList"
             :key="i"
             style="padding: 16px 20px; border: #f2f2f2; box-shadow: 0 3px 8px 0 rgba(46,49,72,.1)"
-          >{{i + 1}}.&nbsp;&nbsp;{{v.name}}</div>
+            @click="openCellPanel(v.id)"
+            >{{i + 1}}.&nbsp;&nbsp;{{v.name}}</div>
           <div
             class="board-add border-card"
             style="display: flex; justify-content: center; align-items: center;"
-          >
-            <icon-font type="icon-AddItem" style="font-size: 30px;" />
-            <span style="margin-left: 8px; font-size: 20px;" @click="showBoard">添加看板</span>
+            @click="showBoard"
+            >
+            <icon-font type="icon-AddItem" style="font-size: 16px;" />
+            <span style="margin-left: 8px; font-size: 16px;" >添加看板</span>
           </div>
+          <!-- </div> -->         
         </draggable>
       </a-collapse-panel>
     </a-collapse>
@@ -191,6 +197,9 @@ export default {
           this.loadBoard()
         })
         .catch(msg => this.message(msg));
+    },
+    openCellPanel(id){
+      this.$router.push({path:'/board', query: {id: id}})
     }
   },
   mounted() {
