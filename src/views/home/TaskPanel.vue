@@ -199,7 +199,9 @@ export default {
         .catch(msg => this.message(msg));
     },
     openCellPanel(id){
-      this.$router.push({path:'/board', query: {id: id}})
+
+      // this.$router.push({ path: `/board` })
+      this.$router.push({path:`/board/${id}`})
     }
   },
   mounted() {

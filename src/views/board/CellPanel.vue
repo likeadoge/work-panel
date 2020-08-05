@@ -9,7 +9,7 @@
           :group="{name:'card'}"
           style="padding-bottom:16px;height:100%"
         >
-          <div class="panel card" v-for="v in list" :key="v.cardId">
+          <div class="panel card" v-for="v in list" :key="v.cardId" @click="()=>openDetail(v)">
             {{v.content}}
             <div style="overflow:hidden;margin:6px 0 -6px 0">
               <div v-if="v.hour" class="hour-tag">{{v.hour}}</div>
@@ -22,7 +22,6 @@
               <a-avatar
                 v-for="(v) in v.executors"
                 :key="'e-'+v.uid"
-                size="middle"
                 class="avatar-tag"
               >{{v.realname[0]}}{{v.realname[1]?v.realname[1]:""}}</a-avatar>
             </div>
@@ -253,8 +252,15 @@ export default {
         this.isAddingCard = false;
       }
     },
+
+    openDetail(v){
+      this.$emit('openDetail',v)
+    }
   },
 };
+
+
+
 </script>
 
 <style lang="css" scoped>
@@ -340,4 +346,7 @@ export default {
   float: left;
   margin: 2px 6px 2px 0;
 }
+
+
+
 </style>
