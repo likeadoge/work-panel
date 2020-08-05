@@ -1,6 +1,7 @@
 // import ph from "@/utils/placeholder";
 import uuid from "@/utils/uuid";
 import * as http from './http'
+import moment from 'moment';
 
 
 const newRow = () => ({ rowId: uuid(), sort: rows.length })
@@ -12,22 +13,72 @@ let cols = []
 // let title = ph()
 
 
-const newCard = ({
-    cardId,
-    columnId,
-    laneId,
-    name,
-    // panelId,
-    sort,
-    version,
-}) => ({
-    rowId: laneId,
-    colId: columnId,
-    cardId,
-    sort,
-    version,
-    content: name
-})
+const newCard = {
+    toServer: (panelId, {
+        rowId,
+        colId,
+        cardId,
+        sort,
+        content,
+        executors,
+        time,
+        hour
+    }) => ({
+        laneId:rowId,
+        columnId:colId,
+        cardId,
+        sort,
+        panelId,
+        name:content,
+        execId:executors.map(v=>v.uid).join(','),
+        workTime:hour,
+        endTime:time?time.format('YYYY-MM-DD hh:mm:ss'):''
+     }),
+    toClient: ({
+        cardId,
+        columnId,
+        laneId,
+        name,
+        sort,
+        version,
+        endTime,
+        workTime,
+        execName
+    }) => ({
+        rowId: laneId,
+        colId: columnId,
+        cardId,
+        sort,
+        version,
+        executors:execName?execName.map(({id,name})=>({
+            uid:id,realname:name
+        })):[],
+        content: name,
+        hour:Number(workTime)?Number(workTime):0,
+        time:endTime?moment(endTime):null
+    })
+}
+
+
+// const _newCard = ({
+//     cardId,
+//     columnId,
+//     laneId,
+//     name,
+//     // panelId,
+//     sort,
+//     version,
+//     endTime,
+// }) => ({
+//     rowId: laneId,
+//     colId: columnId,
+//     cardId,
+//     sort,
+//     version,
+//     content: name,
+//     time:endTime?moment(endTime):null,
+
+// })
 
 rows.push(newRow()); rows.push(newRow()); rows.push(newRow()); rows.push(newRow());
 cols.push(newCol()); cols.push(newCol()); cols.push(newCol()); cols.push(newCol());
@@ -47,7 +98,7 @@ export const getBoradDetail = (panelId) => {
         rows: lanes.map(({
             id, sort
         }) => ({ rowId: id, sort })).sort((a, b) => a.sort - b.sort),
-        cards: cardInfos.map(v => newCard(v)),
+        cards: cardInfos.map(v => newCard.toClient(v)),
         panel: panel,
         title: panel.name,
         templateName: project.template
@@ -61,7 +112,6 @@ export const addBoardRow = (panelId) => {
 
     return http.post('/task/lane/create', { panelId })
 }
-
 
 export const deleteBoardRow = (id) => {
     // rows = rows.filter(v => v.rowId !== rowid).sort((a, b) => a.sort - b.sort).map((v, i) => Object.assign({}, v, {
@@ -82,24 +132,9 @@ export const sortBoardRows = (rows) => {
     })))
 }
 
-export const addCard = (panelId, {
-    rowId, colId, info, sort
-}) => {
-    // cards.push({
-    //     rowId,
-    //     colId,
-    //     sort,
-    //     content: info.content || "",
-    // });
-    // return Promise.resolve({})
+export const addCard = (panelId, card) => {
 
-    return http.post('/task/card/create', {
-        panelId,
-        columnId: colId,
-        laneId: rowId,
-        name: info.content,
-        sort: sort
-    })
+    return http.post('/task/card/create', newCard.toServer(panelId,card))
 }
 
 export const updateCards = (panelId, arr) => {
@@ -124,7 +159,7 @@ export const getCellsCard = (panelId, arr) => {
     }))).then(arr => arr.map(({ columnId, laneId, cardInfos }) => ({
         rowId: laneId,
         colId: columnId,
-        items: cardInfos.map(v => newCard(v))
+        items: cardInfos.map(v => newCard.toClient(v))
     })))
 }
 
