@@ -2,7 +2,7 @@
   <a-modal
     :visible="visibleProject"
     title="新建项目"
-    @cancel="()=> (this.visibleProject = false)"
+    @cancel="exit(form)"
     @ok="onSubmit"
     cancelText="取消"
     okText="确定"
@@ -84,13 +84,23 @@ export default {
           this.$emit('addProject', this.form)
           this.visibleProject = false
           this.$refs.form.resetFields();
+          resetForm(form)
         } else {
           console.log("error submit!!");
           return false;
         }
         this.visibleProject = false
       });
-    },  
+    }, 
+    exit(form){
+      this.visibleProject = false
+      this.$refs.form.resetFields();
+      resetForm(form)
+      console.log(this.form)
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
     onChange(date, dateString) {
       // console.log(date, dateString);
       this.form.beginTime = dateString[0];
