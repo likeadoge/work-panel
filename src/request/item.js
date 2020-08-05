@@ -66,13 +66,34 @@ export const Returnproject = (id) => get('/task/project/reserve', { id: id }).th
         return err
     })
     // 编辑项目
-export const Editproject = ({ id, name }) => post('/task/project/edit', { id: id, name: name }).then((res) => {
-    return res
-}).catch((err) => {
-    return err
-})
-
-// 项目保存为模板
+export const Editproject = ({
+        id,
+        name,
+        templateId,
+        orgId,
+        beginTime,
+        endTime,
+        describe
+    }) => post('/task/project/edit', {
+        id,
+        name,
+        templateId,
+        orgId,
+        beginTime,
+        endTime,
+        describe
+    }).then((res) => {
+        return res
+    }).catch((err) => {
+        return err
+    })
+    // 模板重命名
+export const EditTemplate = ({ id, name }) => post('/task/project/edit', { id: id, name: name }).then((res) => {
+        return res
+    }).catch((err) => {
+        return err
+    })
+    // 项目保存为模板
 export const saveTemplate = ({ id, name }) => post('/task/template/saveProjectToTemplate', { projectId: id, templateName: name }).then((res) => {
     return res
 }).catch((err) => {

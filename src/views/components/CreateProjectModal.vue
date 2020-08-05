@@ -1,7 +1,7 @@
 <template>
   <a-modal
     :visible="visibleProject"
-    title="新建项目"
+    :title="title"
     @cancel="exit(form)"
     @ok="onSubmit"
     cancelText="取消"
@@ -15,7 +15,7 @@
       ref="form"
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
-    >
+      >
       <a-form-model-item label="项目名称" ref="name" prop="name">
         <a-input v-model="form.name" placeholder="请填写项目名称" />
       </a-form-model-item>
@@ -61,6 +61,7 @@ export default {
     wrapperCol: { span: 14 },
     depart: [],
     templatelist: [],
+    title: '',
     form: {
       name: "",
       templateId: "",
@@ -114,6 +115,10 @@ export default {
       item.getTemplateList().then((res) => {
         this.templatelist = res
       })
+    },
+    edit(id, name, templateId, orgId, beginTime, endTime, describe){
+      this.form = {name, templateId, orgId, beginTime, endTime, describe}
+      
     }
   },
   mounted() {

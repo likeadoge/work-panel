@@ -45,7 +45,7 @@
               <icon-font type="icon-projectCount" class="sidebarfont" />项目管理
             </span>
             <template v-for="(v,i) in projectList">
-              <a-menu-item :key="i">{{v.name}}</a-menu-item>
+              <a-menu-item :key="i" >{{v.name}}</a-menu-item>
             </template>
             <a-menu-item key="name">
               <a-button type="link" style="padding: 0px;" @click="showProject">
@@ -74,6 +74,10 @@
           :id="v.id"
           :title="v.name"
           :sub-title="v.describe"
+          :templateId="v.templateId"
+          :orgId = "v.orgId"
+          :beginTime = "v.beginTime"
+          :endTime = "v.endTime"
           v-show="menuChange == 'sub1'"
           @loadProject="loadProject"
           @sort="boards=>sortBoards(v.id, boards)"
@@ -185,6 +189,9 @@ export default {
     },
     showProject() {
       this.$refs.project.visibleProject = true;
+    },
+    handleItem(name){
+      console.log(name)
     },
     // onOpenChange (openKeys) {
     //   console.log(openKeys)

@@ -79,7 +79,7 @@ export default {
      })
     },
     exeTemplate(id, name){
-      item.Editproject(id, name).then(()=>{
+      item.EditTemplate(id, name).then(()=>{
         this.$message.success("保存成功！")
         this.$emit('loadTemplate')
       }).catch(() => {this.$message.error("error")})

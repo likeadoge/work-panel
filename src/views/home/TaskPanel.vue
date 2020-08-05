@@ -1,25 +1,27 @@
 <template>
   <div style="overflow: hidden;">
-    <a-collapse :bordered="false" defaultActiveKey="1">
-      <a-collapse-panel key="1">
+    <!-- <a-collapse :bordered="false" defaultActiveKey="1">
+      <a-collapse-panel key="1"> -->
+        
+    <a-collapse :bordered="false" :defaultActiveKey="id">
+      <a-collapse-panel :key="id">
         <template slot="header">
           <icon-font
             type="icon-project"
             style="font-size: 18px; color: #45e2e2; margin-right: 10px;"
-          />
+            />
           <span style="font-size: 18px; color: #333;">{{title}}</span>
         </template>
         <template slot="extra">
-          
           <a-dropdown>
-            <a-menu slot="overlay" >
+            <a-menu slot="overlay">
               <a-menu-item key="1" @click="saveTemplate(id, title)">保存为模板</a-menu-item>
-              <a-menu-item key="2">编辑</a-menu-item>
+              <a-menu-item key="2" @click="editProject">编辑</a-menu-item>
               <a-menu-item key="3" @click="handleLib">归档</a-menu-item>
               <a-menu-item key="4" @click="handleDel">删除</a-menu-item>
             </a-menu>
             <a-button type="link" @click.stop="()=>{}">
-              <icon-font style="font-size: 18px; color: #333;" type="icon-more"/>
+              <icon-font style="font-size: 18px; color: #333;" type="icon-more" />
             </a-button>
           </a-dropdown>
         </template>
@@ -32,7 +34,7 @@
           :element="'div'"
           :ghostClass="'board-card-ghost'"
           style="padding-bottom:16px"
-        >
+          >
           <!-- <div class="board border-card" v-for="v in boards" :key="v.id" style="padding: 16px 20px; border: #f2f2f2; box-shadow: 0 3px 8px 0 rgba(46,49,72,.1)">{{v.title}}</div>
           <div class="board-add border-card" style="display: flex; justify-content: center; align-items: center;">
             <icon-font type="icon-AddItem" style="font-size: 30px;"/><span style="margin-left: 8px; font-size: 20px;" @click="showBoard">添加看板</span>
@@ -54,9 +56,9 @@
       </a-collapse-panel>
     </a-collapse>
     <create-board-modal ref="board" @childByBoard="childByBoard" />
-    <info-delete ref="infodel" :id="id" @exeDel="exeDel"/>
+    <info-delete ref="infodel" :id="id" @exeDel="exeDel" />
     <info-library ref="infolib" :id="id" @exeLib="exeLib" />
-    <custom-template-modal ref="template" @exeTemplate="exeTemplate" />  
+    <custom-template-modal ref="template" @exeTemplate="exeTemplate" />
     <!-- <div class="task-panel">
       <icon-font type="icon-project" style="font-size: 14px; color: #45e2e2;" />
       <h3>{{title}}</h3>
@@ -75,6 +77,7 @@
         <div class="board-add border-card">添加新看板</div>
       </draggable>
     </div>-->
+    <create-project-modal ref="project" @addProject="addProject"/>
   </div>
 </template>
 
@@ -84,11 +87,12 @@ import CreateBoardModal from "../components/CreateBoardModal";
 import InfoDelete from "../components/InfoDelete";
 import InfoLibrary from "../components/InfoLibrary"
 import CustomTemplateModal from "../components/CustomTemplateModal"
+import CreateProjectModal from "../components/CreateProjectModal";
 import * as item from "../../request/item";
 
 export default {
-  components: { draggable, CreateBoardModal, InfoDelete, InfoLibrary, CustomTemplateModal, },
-  props: ["id", "title", "subTitle", "boards"],
+  components: { draggable, CreateBoardModal, InfoDelete, InfoLibrary, CustomTemplateModal, CreateProjectModal },
+  props: ["id", "title", "subTitle", "templateId", "orgId", "beginTime", "endTime", "boards"],
   data() {
     return {
       visibleBoard: false,
@@ -161,6 +165,32 @@ export default {
         this.$message.success("模板保存成功！")
         this.$emit('loadProject')
       }).catch(() => {this.$message.error("error")})
+    },
+    editProject(){
+      this.$refs.project.visibleProject = true
+      this.$refs.project.title = "编辑项目"
+      this.$refs.project.edit(this.id, this.title, this.templateId, this.orgId, this.beginTime, this.endTime, this.subTitle)
+    },
+    addProject(value){
+      const { name, templateId, orgId, beginTime, endTime, describe } = value;
+      // console.log(value)
+      const id = this.id
+      // console.log(id)
+      item
+        .Editproject(
+          {id,
+          name,
+          templateId,
+          orgId,
+          beginTime,
+          endTime,
+          describe}
+        )
+        .then(() => {
+          this.$emit('loadProject')
+          this.loadBoard()
+        })
+        .catch(msg => this.message(msg));
     }
   },
   mounted() {
