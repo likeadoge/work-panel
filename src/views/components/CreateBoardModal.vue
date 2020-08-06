@@ -1,5 +1,5 @@
 <template>
-  <a-modal :visible="visibleBoard" title="新建看板" @cancel="()=> (this.visibleBoard = false)" :width="800">
+  <a-modal :visible="visibleBoard" :title="title" @cancel="()=> (this.visibleBoard = false)" :width="800">
     <a-form-model
       :model="form"
       :rules="rules"
@@ -30,6 +30,9 @@ export default {
     visibleBoard: false,
     labelCol: { span: 4 },
     wrapperCol: { span: 14 },
+    id: '',
+    projectId: '',
+    title: '新建看板',
     form: {
       name: "",
       project: "iData项目管理"
@@ -45,6 +48,7 @@ export default {
           // console.log("新建看板")
           // console.log(this.form)
           this.$emit('childByBoard', this.form)
+          this.$emit('editBoardName', {id: this.id, name: this.form.name, projectId: this.projectId})
           this.visibleBoard = false
           this.$refs.form.resetFields();
         } else {
@@ -56,6 +60,13 @@ export default {
     onChange(e) {
       console.log(`checked = ${e.target.checked}`);
     },
+    edit(id, name, projectId){
+      this.form.name = name
+      this.id = id
+      this.projectId = projectId
+      console.log(id, name, projectId)
+    },
+    
   }
 };
 </script>

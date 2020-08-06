@@ -106,3 +106,17 @@ export const applyTemplate = ({ projectName, templateId }) => post('/task/templa
 }).catch((err) => {
     return err
 })
+
+// 看板删除
+export const delBoard = (id) => get('/task/panel/delete', { id: id }).then((res) => {
+    return res
+}).catch((err) => {
+    return err
+})
+
+// 看板编辑
+export const editBoard = ({ id, name, projectId }) => post('/task/panel/edit', { id: id, name: name, projectId: projectId }).then((res) => {
+    return res
+}).catch((err) => {
+    return err
+})
