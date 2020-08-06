@@ -41,14 +41,21 @@
           style="padding-bottom:16px"
           >
           
-          <!-- <div style="display: grid; grid-row-gap: 20px; grid-column-gap: 20px; grid-template-columns: repeat(auto-fill, 268px);"> -->
+          <div style="display: grid; grid-row-gap: 20px; grid-column-gap: 20px; grid-template-columns: repeat(auto-fill, 268px);">
           <div
             class="board border-card"
             v-for="(v,i) in boardList"
             :key="i"
             style="padding: 16px 20px; border: #f2f2f2; box-shadow: 0 3px 8px 0 rgba(46,49,72,.1)"
             @click="openCellPanel(v.id)"
-            >{{i + 1}}.&nbsp;&nbsp;{{v.name}}</div>
+            @mouseleave="mouseleave" @mouseover="mouseover"
+            >{{i + 1}}.&nbsp;&nbsp;{{v.name}}
+              <div style="float: right;" v-show="editshow">
+                <a @click="editBoard(v.id, v.name)">编辑</a>
+                <a @click="delBoard(v.id)" style="margin-left: 4px;">删除</a>
+              </div>
+              
+            </div>
           <div
             class="board-add border-card"
             style="display: flex; justify-content: center; align-items: center;"
@@ -57,11 +64,12 @@
             <icon-font type="icon-AddItem" style="font-size: 16px;" />
             <span style="margin-left: 8px; font-size: 16px;" >添加看板</span>
           </div>
-          <!-- </div> -->         
+          </div>         
         </draggable>
       </a-collapse-panel>
     </a-collapse>
     <create-board-modal ref="board" @childByBoard="childByBoard" />
+    <create-board-modal ref="editboard" @editBoardName="editBoardName"/>
     <info-delete ref="infodel" :id="id" @exeDel="exeDel" />
     <info-library ref="infolib" :id="id" @exeLib="exeLib" />
     <custom-template-modal ref="template" @exeTemplate="exeTemplate" />
@@ -106,7 +114,8 @@ export default {
       visibleLib: false,
       visibleTemplate: false,
       boardList: [],
-      newBoard: []
+      newBoard: [],
+      editshow: false,
     };
   },
   methods: {
@@ -199,14 +208,44 @@ export default {
         .catch(msg => this.message(msg));
     },
     openCellPanel(id){
-
-      // this.$router.push({ path: `/board` })
+      // this.$router.push({path:'/board', query: {id: id}})
       this.$router.push({path:`/board/${id}`})
+    },
+    mouseleave(){
+      this.editshow = false
+    },
+    mouseover(){
+      this.editshow = true
+    },
+    editBoard(id, name){
+      console.log("编辑看板")
+      event.stopPropagation()
+      this.$refs.editboard.edit(id, name, this.id)
+      this.$refs.editboard.title = '编辑看板'
+      this.$refs.editboard.visibleBoard = true;
+    },
+    delBoard(id){
+      console.log("删除看板")
+      event.stopPropagation()
+      item.delBoard(id).then(() => {
+        this.$message.success("看板已删除")
+      })
+    },
+    editBoardName(id, name, projectId){
+      console.log(id, name, projectId)
+      item.editBoard(id, name, projectId).then(() => {
+        this.$message.success("保存成功！")
+        this.loadBoard();
+      }).catch((msg) => {
+        this.$message.error(msg)
+      })
     }
+
   },
   mounted() {
     this.loadBoard();
   },
+  
   computed: {
     list: {
       get() {
