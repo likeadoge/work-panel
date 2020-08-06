@@ -4,7 +4,9 @@
       <flex-fixed>
         <flex-row style="magin:0;height:67px;line-height:72px;margin-bottom:0">
           <flex-fixed>
-            <a-button type="link" icon="left" :size="'large'" />
+            <router-link to="/">
+              <a-button type="link" icon="left" :size="'large'" />
+            </router-link>
           </flex-fixed>
           <flex-fill>
             <b style="font-size: 1.5em;\">{{title}}</b>
@@ -40,6 +42,7 @@
               :userList="allUserList"
               @add="({rowId,colId,sort,info})=>addItem({rowId,colId,sort,info})"
               @update="({rowId,colId,items})=>updateItems({rowId,colId,items})"
+              @openDetail="v=>openDetail(v)"
             />
 
             <row-opreater
@@ -58,6 +61,8 @@
         </div>
       </flex-fill>
     </flex-col>
+
+    <card-modal :userList="allUserList" ref="cardModal" />
   </div>
 </template>
 
@@ -67,28 +72,30 @@ import CellPanel from "./board/CellPanel";
 import * as projectRequest from "@/request/board";
 import * as userRequest from "@/request/user";
 import uuid from "@/utils/uuid";
+import CardModal, { outer as modalOuter } from "./board/CardModal";
 
 export default {
   components: {
     RowOpreater,
     CellPanel,
+    CardModal,
   },
+  props:['id'],
   data: () => ({
-    id: "202008041517043m87alx03xr3kqe5c5",
     templateName: "",
     title: "",
     rows: [],
     cols: [],
     cards: [],
 
-    allUserList:[]
+    allUserList: [],
   }),
   mounted() {
     this.loadDetail();
-    userRequest.getUserList().then(arr=>{
-      this.allUserList = arr
-      console.log(this.allUserList)  
-    })
+    userRequest.getUserList().then((arr) => {
+      this.allUserList = arr;
+      console.log(this.allUserList);
+    });
   },
   computed: {
     cells() {
@@ -113,27 +120,25 @@ export default {
     },
   },
   methods: {
-    cellVersion({rowId,colId}){
-      const e = this.cards.find(v=>v.rowId === rowId && v.colId === colId)
-      return e?e.version : ''
+    cellVersion({ rowId, colId }) {
+      const e = this.cards.find((v) => v.rowId === rowId && v.colId === colId);
+      return e ? e.version : "";
     },
     addItem({ rowId, colId, sort, info = {} }) {
-      console.log(info)
-      window.a = info
-      
+      console.log(info);
+      window.a = info;
+
       const ncard = {
         rowId,
         colId,
         sort,
         content: info.content,
-        hour:info.hour||0,
-        executors:info.user || [],
-        time:info.time || null
-      }
+        hour: info.hour || 0,
+        executors: info.user || [],
+        time: info.time || null,
+      };
       this.cards.push(ncard);
-      projectRequest
-        .addCard(this.id, ncard)
-        .then(() => this.loadDetail());
+      projectRequest.addCard(this.id, ncard).then(() => this.loadDetail());
     },
     updateItemsList(cells) {
       return projectRequest
@@ -160,8 +165,8 @@ export default {
       this.$updateCache.push({
         rowId,
         colId,
-        version:this.cellVersion({rowId,colId}),
-        items:items.map((v,i)=>Object.assign({},v,{sort:i})),
+        version: this.cellVersion({ rowId, colId }),
+        items: items.map((v, i) => Object.assign({}, v, { sort: i })),
       });
 
       this.$updateTimeout = setTimeout(() => {
@@ -258,8 +263,13 @@ export default {
       //   );
       // }
     },
+
+    openDetail(v) {
+      this.$refs.cardModal[modalOuter.open](v);
+    },
   },
 };
+
 </script>
 
 <style lang="css" scoped>
