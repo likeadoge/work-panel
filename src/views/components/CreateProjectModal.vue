@@ -6,7 +6,7 @@
     @ok="onSubmit"
     cancelText="取消"
     okText="确定"
-    :width="800"
+    :width="700"
     centered
   >
     <a-form-model
@@ -19,16 +19,14 @@
       <a-form-model-item label="项目名称" ref="name" prop="name">
         <a-input v-model="form.name" placeholder="请填写项目名称" />
       </a-form-model-item>
-      <a-form-model-item label="项目模板">
+      <a-form-model-item label="项目模板" ref="templateId" prop="templateId">
         <a-select v-model="form.templateId"  placeholder="请选择项目模板">
           <a-select-option v-for="(v,i) in templatelist" :key="i" :value="v.id" >{{v.name}}</a-select-option>
         </a-select>
       </a-form-model-item>
-      <a-form-model-item label="所属部门">
-        <!-- <a-input v-model="form.orgld" placeholder="达梦数据库" disabled /> -->
-        <a-select v-model="form.orgId"  placeholder="请选择所属部门" v-for="(v,i) in depart" :key="i">
+      <a-form-model-item label="所属部门" >
+        <a-select v-model="form.orgId" v-for="(v,i) in depart" :key="i">
           <a-select-option :value="v.id">{{v.departName}}</a-select-option>
-          <!-- <a-select-option value="beijing">Zone two</a-select-option> -->
         </a-select>
       </a-form-model-item>
       <a-form-model-item label="起止时间">
@@ -61,18 +59,18 @@ export default {
     wrapperCol: { span: 14 },
     depart: [],
     templatelist: [],
-    title: '',
+    title: '新建项目',
     form: {
       name: "",
-      templateId: "",
-      orgId: "",
+      templateId: undefined,
+      orgId: "202006231411511XNVRDKRPAC3SF5OP1",
       beginTime: "",
       endTime: "",
       describe: ""
     },
     rules: {
       name: [{ required: true, message: "请输入项目名称", trigger: "change" }],
-      template: [
+      templateId: [
         { required: true, message: "请选择项目模板", trigger: "change" }
       ]
     }
