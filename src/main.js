@@ -10,7 +10,9 @@ import './style/all.css'
 import Storage from 'vue-ls';
 import * as user from '@/request/user'
 import { mapMutations } from 'vuex'
+import moment from "moment";
 
+moment.locale('zh-cn')
 
 const options = {
     namespace: 'vuejs__', // key键前缀
