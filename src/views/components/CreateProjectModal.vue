@@ -122,7 +122,10 @@ export default {
       item.getDepart().then(res => {
       this.depart = res;
     });
-    }
+    },
+    mounted () {
+      this.loadDepart();
+    },
   }
 };
 </script>
