@@ -120,3 +120,18 @@ export const editBoard = ({ id, name, projectId }) => post('/task/panel/edit', {
 }).catch((err) => {
     return err
 })
+
+// 看板拖动
+export const dragBoard = ({ id, projectId, sort }) => post('/task/panel/drag', { id, projectId, sort }).then((res) => {
+    return res
+}).catch((err) => {
+    return err
+})
+
+// 获取项目带看板
+
+export const getAll = () => get('/task/project/getProjectPanels', {}).then((res) => {
+    return res
+}).catch((err) => {
+    return err
+})

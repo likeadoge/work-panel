@@ -32,27 +32,31 @@
         
         
         <draggable
-          v-model="boardList"
+          v-model="list"
           class="board-cntr"
           :filter="'.board-add'"
           :draggable="'.board'"
           :element="'div'"
           :ghostClass="'board-card-ghost'"
+          :group="{name:'board-card'}"
           style="padding-bottom:16px"
+         @start="start"
+          @end="end"
           >
           
-          <div style="display: grid; grid-row-gap: 20px; grid-column-gap: 20px; grid-template-columns: repeat(auto-fill, 268px);">
+          
+          <!-- <div style="display: grid; grid-row-gap: 20px; grid-column-gap: 20px; grid-template-columns: repeat(auto-fill, 268px);"> -->
           <div
             class="board border-card"
             v-for="(v,i) in boardList"
-            :key="i"
+            :key="v.id"
             style="padding: 16px 20px; border: #f2f2f2; box-shadow: 0 3px 8px 0 rgba(46,49,72,.1)"
-            @click="openCellPanel(v.id)"
-            @mouseleave="mouseleave" @mouseover="mouseover"
+            @click="openCellPanel(v.id)"            
             >{{i + 1}}.&nbsp;&nbsp;{{v.name}}
-              <div style="float: right;" v-show="editshow">
-                <a @click="editBoard(v.id, v.name)">编辑</a>
-                <a @click="delBoard(v.id)" style="margin-left: 4px;">删除</a>
+            <!-- @mouseleave="mouseleave" @mouseover="mouseover" -->
+              <div  style="float: right; margin-top: 55px;">
+                <a  @click="editBoard(v.id, v.name)"><icon-font style="font-size: 16px;" type="icon-edit"/></a>
+                <a @click="delBoard(v.id)" style="margin-left: 4px;"><icon-font style="font-size: 16px; color: #f84040;" type="icon-delete"/></a>
               </div>
               
             </div>
@@ -64,7 +68,7 @@
             <icon-font type="icon-AddItem" style="font-size: 16px;" />
             <span style="margin-left: 8px; font-size: 16px;" >添加看板</span>
           </div>
-          </div>         
+          <!-- </div>          -->
         </draggable>
       </a-collapse-panel>
     </a-collapse>
@@ -125,7 +129,6 @@ export default {
     loadBoard() {
       item.getBoard(this.id).then(res => {
         this.boardList = res;
-        // console.log(res)
       });
     },
     childByBoard(value) {
@@ -185,6 +188,8 @@ export default {
       this.$refs.project.visibleProject = true
       this.$refs.project.title = "编辑项目"
       this.$refs.project.edit(this.id, this.title, this.templateId, this.orgId, this.beginTime, this.endTime, this.subTitle)
+      this.$refs.project.loadDepart()
+      this.$refs.project.loadCustomTemplate()
     },
     addProject(value){
       const { name, templateId, orgId, beginTime, endTime, describe } = value;
@@ -229,6 +234,7 @@ export default {
       event.stopPropagation()
       item.delBoard(id).then(() => {
         this.$message.success("看板已删除")
+        this.loadBoard()
       })
     },
     editBoardName(id, name, projectId){
@@ -239,8 +245,15 @@ export default {
       }).catch((msg) => {
         this.$message.error(msg)
       })
-    }
-
+    },
+    start(e){
+      console.log(e.oldIndex)
+    },
+    end(e){
+      console.log(e.newIndex)
+      console.log(this.list.index)
+    },
+    
   },
   mounted() {
     this.loadBoard();
@@ -249,10 +262,11 @@ export default {
   computed: {
     list: {
       get() {
-        return this.boards;
+        return this.boardList;
       },
       set(arr) {
         this.$emit("sort", arr);
+        console.log(this.newIndex)
       }
     }
   }
@@ -294,6 +308,12 @@ export default {
 }
 .board-card-ghost {
   opacity: 0.5;
+}
+.board > div{
+  display: none;
+}
+.board:hover > div{
+  display: block;
 }
 </style>
 

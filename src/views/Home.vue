@@ -140,6 +140,7 @@ export default {
     openKeys: [],
     data: [], //模板库请求数据
     datalib: [], //归档库请求数据
+    dataall: [],
     // list:[]
     // list: new Array(5).fill(0).map(() => ({
     //   id: uuid(), // 项目 id
@@ -189,6 +190,8 @@ export default {
     },
     showProject() {
       this.$refs.project.visibleProject = true;
+      this.$refs.project.loadDepart()
+      this.$refs.project.loadCustomTemplate()
     },
     handleItem(name){
       console.log(name)
@@ -227,7 +230,11 @@ export default {
   mounted() {
     this.loadProject();
     this.loadTemplate();
-    this.loadLibrary()
+    this.loadLibrary();
+    // item.getAll().then((res) => {
+    //   this.dataall = res
+    //   console.log(res)
+    // })
   }
 };
 </script>

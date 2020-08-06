@@ -117,13 +117,12 @@ export default {
     edit(id, name, templateId, orgId, beginTime, endTime, describe){
       this.form = {name, templateId, orgId, beginTime, endTime, describe}
       
-    }
-  },
-  mounted() {
-    item.getDepart().then(res => {
+    },
+    loadDepart(){
+      item.getDepart().then(res => {
       this.depart = res;
     });
-    this.loadCustomTemplate()
+    }
   }
 };
 </script>
