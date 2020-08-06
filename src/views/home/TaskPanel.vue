@@ -120,15 +120,24 @@ export default {
       boardList: [],
       newBoard: [],
       editshow: false,
+      // list1:  draggable.map((name, index) => {
+      //   return {name, order: index + 1, fixed: false}
+      // })
     };
   },
   methods: {
+    // orderList() {
+    //   this.list = this.list.sort((one, two) => {
+    //     return one.order - two.order;
+    //   });
+    // },
     showBoard() {
       this.$refs.board.visibleBoard = true;
     },
     loadBoard() {
       item.getBoard(this.id).then(res => {
         this.boardList = res;
+        console.log(res)
       });
     },
     childByBoard(value) {
@@ -257,6 +266,9 @@ export default {
   },
   mounted() {
     this.loadBoard();
+    // this.loadDepart()
+    // this.loadCustomTemplate()
+    // console.log(list1)
   },
   
   computed: {
@@ -313,7 +325,10 @@ export default {
   display: none;
 }
 .board:hover > div{
-  display: block;
+  display: block;  
+}
+.board:hover {
+  box-shadow: 0px 8px 10px 0px rgba(46,49,72,0.1) !important;
 }
 </style>
 
