@@ -2,10 +2,10 @@
   <div class="bg">
     <div class="whitebg">
       <div style="display: flex; align-items:center; ">
-        <img src="../assets/login_logo/bg-left.png" style="width: 96%; margin-left: 30px;" />
+        <img src="../assets/login_logo/bg-left.png" style="border-top-left-radius: 8px; border-bottom-left-radius: 8px;" />
       </div>
       <div
-        style="display: flex; flex-direction: column; justify-content: center; height: 450px; margin-left: 70px; margin-right: 80px; width: 400px;"
+        style="display: flex; flex-direction: column; justify-content: center; height: 450px; margin-left: 80px; margin-right: 80px; width: 400px;"
       >
         <!-- 登录界面 -->
         <a-form-model
@@ -15,8 +15,8 @@
           :rules="rules"
           :model="form"
           style="height: 600px;"
-        >
-          <h3 class="welcomelogo" style="margin-top: 80px;">账号密码登录</h3>
+          >
+          <h3 class="welcomelogo" style="margin-top: 80px; color: #13c2c2">账号密码登录</h3>
 
           <a-form-model-item ref="logusername" prop="logusername">
             <a-input class="input-text" v-model="form.logusername" placeholder="请输入用户名" type="text">
@@ -36,11 +36,11 @@
             </a-input>
           </a-form-model-item>
 
-          <a-form-model-item ref="checked" prop="checked" style="margin:-10px 0;">
+          <a-form-model-item ref="checked" prop="checked" style="margin-top: -16px; margin-bottom: 5px;">
             <a-checkbox v-model="checked">15内自动登录</a-checkbox>
-            <a
+            <!-- <a
               style="font-family: SourceHanSansCN-Regular; font-size: 14px; color: #3370ff; float: right;"
-            >忘记密码?</a>
+            >忘记密码?</a> -->
           </a-form-model-item>
 
           <a-form-model-item>
@@ -67,7 +67,7 @@
           :rules="regrules"
           style="height: 600px;"
         >
-          <h3 class="welcomelogo" style="margin-top: 90px; margin-bottom: 24px;">账号注册</h3>
+          <h3 class="welcomelogo" style="margin-top: 90px; margin-bottom: 24px; color: #13c2c2">账号注册</h3>
 
           <a-form-model-item has-feedback prop="regusername">
             <a-input
@@ -317,7 +317,9 @@ export default {
   background-color: #fff;
   display: flex;
   justify-content: space-between;
-  border-radius: 10px;
+  border-radius: 8px;
+  /* box-shadow: 7px 6px 1px red; */
+  box-shadow: 0 0 16px rgba(46,61,72,.1);
   width: 800px;
 }
 .whitebg .opacity {
@@ -340,6 +342,9 @@ export default {
   width: 100%;
 }
 .input-text {
-  width: 280px;
+  background-color: #fff;
 }
+/* .input-text {
+  width: 280px;
+} */
 </style>
