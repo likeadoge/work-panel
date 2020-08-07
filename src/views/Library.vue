@@ -17,7 +17,7 @@ const columns = [
   {
     title: '项目名称',
     dataIndex: 'name',
-    // width: '25%',
+    width: '25%',
     scopedSlots: { customRender: 'name' },
   },
   {

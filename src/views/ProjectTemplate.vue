@@ -21,15 +21,15 @@ const columns = [
   {
     title: '项目模板',
     dataIndex: 'name',
-    // width: '15%',
+    width: '25%',
     scopedSlots: { customRender: 'name' },
   },
-  {
-    title: '描述',
-    dataIndex: 'describe',
-    width: '40%',
-    scopedSlots: { customRender: 'describe' },
-  },
+  // {
+  //   title: '描述',
+  //   dataIndex: 'describe',
+  //   width: '40%',
+  //   scopedSlots: { customRender: 'describe' },
+  // },
   {
     title: '创建时间',
     dataIndex: 'createTime',
