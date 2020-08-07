@@ -21,7 +21,7 @@ const columns = [
   {
     title: '项目模板',
     dataIndex: 'name',
-    width: '25%',
+    // width: '25%',
     scopedSlots: { customRender: 'name' },
   },
   // {
@@ -34,12 +34,14 @@ const columns = [
     title: '创建时间',
     dataIndex: 'createTime',
     width: '316px',
+    align: 'center',
     scopedSlots: { customRender: 'createTime' },
   },
   {
     title: '操作',
     dataIndex: 'operation',
     width: '276px',
+    align: 'center',
     scopedSlots: { customRender: 'operation' },
   },
 ]

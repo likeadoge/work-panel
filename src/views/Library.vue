@@ -30,12 +30,14 @@ const columns = [
     title: '归档时间',
     dataIndex: 'updateTime',
     width: '316px',
+    align: 'center',
     scopedSlots: { customRender: 'updateTime' },
   },
   {
     title: '操作',
     dataIndex: 'operation',
     width: '276px',
+    align: 'center',
     scopedSlots: { customRender: 'operation' },
   },
 ];
