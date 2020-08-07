@@ -137,7 +137,7 @@ export default {
     loadBoard() {
       item.getBoard(this.id).then(res => {
         this.boardList = res;
-        console.log(res)
+        // console.log(res)
       });
     },
     childByBoard(value) {
@@ -169,7 +169,7 @@ export default {
       }).catch(err => this.$message.info(err))      
     },
     handleLib(){
-      console.log("项目归档")
+      // console.log("项目归档")
       this.$refs.infolib.visibleLib = true
     },
     exeLib(id){
@@ -260,7 +260,7 @@ export default {
     },
     end(e){
       console.log(e.newIndex)
-      console.log(this.list.index)
+      // console.log(this.list.index)
     },
     
   },
@@ -278,7 +278,7 @@ export default {
       },
       set(arr) {
         this.$emit("sort", arr);
-        console.log(this.newIndex)
+        // console.log(this.newIndex)
       }
     }
   }
