@@ -67,24 +67,24 @@
           :rules="regrules"
           style="height: 600px;"
         >
-          <h3 class="welcomelogo" style="margin-top: 90px; margin-bottom: 24px; color: #13c2c2">账号注册</h3>
-          <a-form-model-item has-feedback prop="realname">
-            <a-input
-              class="input-text"
-              ref="realname"
-              v-model="regForm.realname"
-              placeholder="请填写真实姓名"
-              type="text"
-            >
-              <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)'}"></a-icon>
-            </a-input>
-          </a-form-model-item>
+          <h3 class="welcomelogo" style="margin-top: 90px; margin-bottom: 24px; color: #13c2c2">账号注册</h3>         
           <a-form-model-item has-feedback prop="regusername">
             <a-input
               class="input-text"
               ref="regusername"
               v-model="regForm.regusername"
               placeholder="请输入用户名"
+              type="text"
+            >
+              <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)'}"></a-icon>
+            </a-input>
+          </a-form-model-item>
+           <a-form-model-item has-feedback prop="realname">
+            <a-input
+              class="input-text"
+              ref="realname"
+              v-model="regForm.realname"
+              placeholder="请填写真实姓名"
               type="text"
             >
               <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)'}"></a-icon>
