@@ -12,7 +12,7 @@
 
         <div class="input-line">
           <div class="input-item">
-            <div class="input-item-title">参与人</div>
+            <div class="input-item-title">执行人</div>
             <div class="input-item-content">
               <circle-member-btn
                 :member="info.member"
